@@ -13,4 +13,34 @@ module.exports = function(app) {
         });
     });
 
+    app.post('/api/users/', function(req, res) {
+        app.api.users.model.findOne({
+            uuid: req.params.uuid
+        }, function(err, passenger) {
+            console.log('putting: ', passenger)
+            if (err) {
+                res.send('There was an error processing the passenger uuid');
+            } else {
+                console.log(req.body)
+                passenger.passengerName = req.body.passengerName;
+                res.json(passenger);
+            }
+        });
+    });
+
+    app.put('/api/corppassengers/:uuid', function(req, res) {
+        app.api.corppassengers.model.findOne({
+            uuid: req.params.uuid
+        }, function(err, passenger) {
+            console.log('putting: ', passenger)
+            if (err) {
+                res.send('There was an error processing the passenger uuid');
+            } else {
+                console.log(req.body)
+                passenger.passengerName = req.body.passengerName;
+                res.json(passenger);
+            }
+        });
+    });
+
 };

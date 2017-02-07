@@ -1,4 +1,3 @@
-var PORT = process.env.PORT;
 
 // Setup Project Paths so we can just require('your-module')
 // Search /server, /node_modules, and /lib
@@ -12,11 +11,15 @@ var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var jwt = require('express-jwt');
+var passport = require('passport');
+var Auth0Strategy = require('passport-auth0');
 var app = express();
+
 
 
 // Config
 app.config = require('./config/config');
+var PORT = app.config.port;
 
 // Setup Webserver
 app.use(cors());
@@ -33,26 +36,36 @@ console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
 app.use(express.static(path.join(__dirname, "/../build")));
 
 // API Resources
-app.api = require('api')(app);
+app.api = require('./api')(app);
 
-// Seed
-if (app.config.seed) {
-    var seed = require('config/seed');
-    seed(app);
-}
+//auth0 setup
+
+// Configure Passport to use Auth0
+var strategy = new Auth0Strategy({
+    domain:       process.env.AUTH0_DOMAIN,
+    clientID:     process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL:  process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+  }, function(accessToken, refreshToken, extraParams, profile, done) {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    return done(null, profile);
+  });
+
+passport.use(strategy);
+
+// This can be used to keep a smaller payload
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
 
 // Start the server...
 if (require.main === module) {
-
-    if (process.env.NODE_ENV === "production") {
-
-        var payload_to_slack = {
-            text: '_STARTED_ <http://crackcookie.xyz/|http://crackcookie.xyz/>',
-            icon_url: "http://i.imgur.com/Qdm0wfY.png",
-            username: "mediator"
-        };
-        app.slack.send(payload_to_slack);
-    }
 
     app.listen(PORT, function() {
         console.log("listening on %d", PORT);

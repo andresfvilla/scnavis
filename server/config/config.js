@@ -7,36 +7,20 @@ module.exports = {
     env: process.env.NODE_ENV || "dev",
     seed: true,
     port: PORT,
-    image: {
-        noAvatarUrl: "",
-        noImageUrl: "",
-        // On image upload, resize images to these sizes
-        sizes: [{
-                name: "original",
-                type: "original", //cover, original, contain, crop
-                width: -1,
-                height: -1
-            }, {
-                name: "large",
-                type: "cover",
-                width: 2040,
-                height: 1360
-            }, {
-                name: "thumb",
-                type: "cover",
-                width: 450,
-                height: 300
-            }
-            // avatar
-            // medium
-        ]
-    },
     mongo: {
-        uri: process.env.MONGO_URL || 'mongodb://localhost/mediator'
-    },
-    dataPath: function(relative) {
-        return path.join(data_root, relative);
+        uri: process.env.MONGO_URL || 'mongodb://localhost/scnavis'
     },
     url: URL,
-    index: path.join(__dirname, '../../build/index.html')
+    index: path.join(__dirname, '../../build/index.html'),
+    auth: {
+        AUTH0_DOMAIN: andresvilla.auth0.com
+        AUTH0_CLIENT_ID: Vb2rwNyhtYmPXbBxRrYAvtFyNyBgIXnI
+        AUTH0_CLIENT_SECRET: MMqtmJBmzSpQy5JRssfeYMmCTkzC1sT4giBWBq_9MZLwlk9nCDp7MZNoIF-m3dly
+        AUTH0_CALLBACK_URL:
+    }
 };
+
+domain:       process.env.AUTH0_DOMAIN,
+    clientID:     process.env.AUTH0_CLIENT_ID,
+    clientSecret: process.env.AUTH0_CLIENT_SECRET,
+    callbackURL:  process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
