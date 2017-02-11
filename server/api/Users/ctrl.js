@@ -1,7 +1,16 @@
 module.exports = function(app) {
     var request = require('request');
-    var apiKey = 'KR2htVYSHtcon3CGp2GETbAgNFFvYAXw';
-    var salt = "$2a$10$0D9EdeLzhglYlLebNboIRu";
+
+    // routes/user.js
+    var express = require('express');
+    var passport = require('passport');
+    var ensureLoggedIn = require('connect-ensure-login').ensureLoggedIn();
+    var router = express.Router();
+
+    // Get the user profile
+    app.get('/', ensureLoggedIn, function(req, res, next) {
+      res.render('user', { user: req.user });
+    });
 
 
     app.get('/api/users', function(req, res) {
@@ -26,6 +35,7 @@ module.exports = function(app) {
                 res.json(passenger);
             }
         });
+        res.render('login', { env: process.env });
     });
 
     app.put('/api/corppassengers/:uuid', function(req, res) {

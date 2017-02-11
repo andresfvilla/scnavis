@@ -15,11 +15,48 @@ var passport = require('passport');
 var Auth0Strategy = require('passport-auth0');
 var app = express();
 
-
-
 // Config
 app.config = require('./config/config');
 var PORT = app.config.port;
+
+app.set('views', path.join(__dirname, 'views'));
+app.set('view engine', 'jade');
+
+// API Resources
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.api = require('./api')(app);
+
+//auth0 setup
+
+// Configure Passport to use Auth0
+var strategy = new Auth0Strategy({
+    domain:       app.config.auth.AUTH0_DOMAIN,
+    clientID:     app.config.auth.AUTH0_CLIENT_ID,
+    clientSecret: app.config.auth.AUTH0_CLIENT_SECRET,
+    callbackURL:  app.config.auth.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
+  }, (accessToken, refreshToken, extraParams, profile, done) => {
+    // accessToken is the token to call Auth0 API (not needed in the most cases)
+    // extraParams.id_token has the JSON Web Token
+    // profile has all the information from the user
+    console.log('callback in app.js')
+    return done(null, profile);
+  });
+
+passport.use(strategy);
+
+// This can be used to keep a smaller payload
+passport.serializeUser(function(user, done) {
+  done(null, user);
+});
+
+passport.deserializeUser(function(user, done) {
+  done(null, user);
+});
+
+app.use(express.static(path.join(__dirname, 'public')));
+
 
 // Setup Webserver
 app.use(cors());
@@ -35,34 +72,7 @@ app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
 app.use(express.static(path.join(__dirname, "/../build")));
 
-// API Resources
-app.api = require('./api')(app);
 
-//auth0 setup
-
-// Configure Passport to use Auth0
-var strategy = new Auth0Strategy({
-    domain:       process.env.AUTH0_DOMAIN,
-    clientID:     process.env.AUTH0_CLIENT_ID,
-    clientSecret: process.env.AUTH0_CLIENT_SECRET,
-    callbackURL:  process.env.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
-  }, function(accessToken, refreshToken, extraParams, profile, done) {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    return done(null, profile);
-  });
-
-passport.use(strategy);
-
-// This can be used to keep a smaller payload
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
 
 // Start the server...
 if (require.main === module) {
