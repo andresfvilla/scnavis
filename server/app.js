@@ -6,56 +6,28 @@ var _ = require('lodash');
 //require('app-module-path').addPath(__dirname);
 //require('app-module-path').addPath(path.join(__dirname, "../lib"));
 
-var cors = require('cors');
-var express = require('express');
-var bodyParser = require('body-parser');
-var mongoose = require('mongoose');
-var jwt = require('express-jwt');
-var passport = require('passport');
-var Auth0Strategy = require('passport-auth0');
+var cors          = require('cors');
+var express       = require('express');
+var bodyParser    = require('body-parser');
+var mongoose      = require('mongoose');
+var jwt           = require('express-jwt');
+var passport      = require('passport');
+var morgan        = require('morgan');
+var cookieParser  = require('cookie-parser');
+var bodyParser    = require('body-parser');
+var session       = require('express-session');
+var flash         = require('connect-flash');
+
 var app = express();
+const util = require('util')
+
 
 // Config
 app.config = require('./config/config');
+require('./config/passport')(passport);
 var PORT = app.config.port;
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'jade');
-
 // API Resources
-app.use(passport.initialize());
-app.use(passport.session());
-
-app.api = require('./api')(app);
-
-//auth0 setup
-
-// Configure Passport to use Auth0
-var strategy = new Auth0Strategy({
-    domain:       app.config.auth.AUTH0_DOMAIN,
-    clientID:     app.config.auth.AUTH0_CLIENT_ID,
-    clientSecret: app.config.auth.AUTH0_CLIENT_SECRET,
-    callbackURL:  app.config.auth.AUTH0_CALLBACK_URL || 'http://localhost:3000/callback'
-  }, (accessToken, refreshToken, extraParams, profile, done) => {
-    // accessToken is the token to call Auth0 API (not needed in the most cases)
-    // extraParams.id_token has the JSON Web Token
-    // profile has all the information from the user
-    console.log('callback in app.js')
-    return done(null, profile);
-  });
-
-passport.use(strategy);
-
-// This can be used to keep a smaller payload
-passport.serializeUser(function(user, done) {
-  done(null, user);
-});
-
-passport.deserializeUser(function(user, done) {
-  done(null, user);
-});
-
-app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Setup Webserver
@@ -63,6 +35,17 @@ app.use(cors());
 
 // Services`
 app.services = {}; // nothing for now
+
+// set up our express application
+app.use(morgan(app.config.env)); // log every request to the console
+app.use(cookieParser()); // read cookies (needed for auth)
+app.use(bodyParser()); // get information from html forms
+
+// required for passport
+app.use(session({ secret: 'mysecretkeyissecret' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Mongoose
 console.log('MongoURL:', app.config.mongo.uri);
@@ -72,7 +55,8 @@ app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
 app.use(express.static(path.join(__dirname, "/../build")));
 
-
+//api resources
+app.api = require('./api')(app, passport);
 
 // Start the server...
 if (require.main === module) {
