@@ -6,6 +6,7 @@ var _ = require('lodash');
 //require('app-module-path').addPath(__dirname);
 //require('app-module-path').addPath(path.join(__dirname, "../lib"));
 
+
 var cors          = require('cors');
 var express       = require('express');
 var bodyParser    = require('body-parser');
@@ -40,6 +41,9 @@ app.services = {}; // nothing for now
 app.use(morgan(app.config.env)); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()); // get information from html forms
+
+app.set('view engine', 'ejs');
+app.set('views', __dirname + "/views");
 
 // required for passport
 app.use(session({ secret: 'mysecretkeyissecret' })); // session secret
