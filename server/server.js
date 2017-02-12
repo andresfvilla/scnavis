@@ -6,10 +6,8 @@ var _ = require('lodash');
 //require('app-module-path').addPath(__dirname);
 //require('app-module-path').addPath(path.join(__dirname, "../lib"));
 
-
 var cors          = require('cors');
 var express       = require('express');
-var MongoStore    = require('connect-mongostore')(express);
 var bodyParser    = require('body-parser');
 var mongoose      = require('mongoose');
 var jwt           = require('express-jwt');
@@ -18,6 +16,7 @@ var morgan        = require('morgan');
 var cookieParser  = require('cookie-parser');
 var bodyParser    = require('body-parser');
 var session       = require('express-session');
+const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 
 var app = express();
@@ -49,22 +48,21 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/views");
 
-// required for passport
+// Mongoose
+console.log('MongoURL:', app.config.mongo.uri);
+//app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
+app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
+
 app.use(session({
    secret: 'mysecretkeyissecret',
-   store: new MongoStore({'db': 'sessions'}),
+   store: new MongoStore({ mongooseConnection: mongoose.connection }),
    resave: true,
    saveUninitialized: true
  })); // session secret
 
-
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
-
-// Mongoose
-console.log('MongoURL:', app.config.mongo.uri);
-app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 
 // Serve up any static files
 console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
