@@ -3,6 +3,8 @@
 // Search /server, /node_modules, and /lib
 var path = require('path');
 var _ = require('lodash');
+//require('app-module-path').addPath(__dirname);
+//require('app-module-path').addPath(path.join(__dirname, "../lib"));
 
 var cors          = require('cors');
 var express       = require('express');
@@ -46,26 +48,21 @@ app.use(bodyParser.json());
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/views");
 
-
-
-
-app.use(passport.initialize());
-app.use(passport.session()); // persistent login sessions
-app.use(flash()); // use connect-flash for flash messages stored in session
-
 // Mongoose
 console.log('MongoURL:', app.config.mongo.uri);
+//app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 
-
-// required for passport
 app.use(session({
    secret: 'mysecretkeyissecret',
-   //store: new MongoStore({ mongooseConnection: mongoose.connection }), //reuse mongoose connection
+   store: new MongoStore({ mongooseConnection: mongoose.connection }),
    resave: true,
    saveUninitialized: true
  })); // session secret
 
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
+app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Serve up any static files
 console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
