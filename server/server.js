@@ -40,13 +40,22 @@ app.services = {}; // nothing for now
 // set up our express application
 app.use(morgan(app.config.env)); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()); // get information from html forms
+
+// get information from html forms
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
 app.set('views', __dirname + "/views");
 
 // required for passport
-app.use(session({ secret: 'mysecretkeyissecret' })); // session secret
+app.use(session({
+   secret: 'mysecretkeyissecret', 
+   resave: true,
+   saveUninitialized: true
+ })); // session secret
+
+
 app.use(passport.initialize());
 app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
