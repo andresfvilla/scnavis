@@ -3,7 +3,7 @@ var PORT = process.env.PORT || 3000;
 var URL = 'http://localhost:' + PORT;
 
 module.exports = {
-    env: process.env.NODE_ENV || "dev",
+    env: process.env.NODE_ENV || "production",
     seed: true,
     port: PORT,
     mongo: {

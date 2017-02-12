@@ -9,6 +9,7 @@ var _ = require('lodash');
 
 var cors          = require('cors');
 var express       = require('express');
+var MongoStore    = require('connect-mongostore')(express);
 var bodyParser    = require('body-parser');
 var mongoose      = require('mongoose');
 var jwt           = require('express-jwt');
@@ -50,7 +51,8 @@ app.set('views', __dirname + "/views");
 
 // required for passport
 app.use(session({
-   secret: 'mysecretkeyissecret', 
+   secret: 'mysecretkeyissecret',
+   store: new MongoStore({'db': 'sessions'}),
    resave: true,
    saveUninitialized: true
  })); // session secret
