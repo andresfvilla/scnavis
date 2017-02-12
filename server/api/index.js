@@ -25,8 +25,8 @@ module.exports = function(app, passport) {
     // Order matters because of route priority.
     // Client should be last since it's the catch-all
     return {
-        users: getAllTheThings('users', app, passport),
-        teams: getAllTheThings('teams', app, passport),
-        client: getAllTheThings('client', app, passport) // Must go last...
+        users: getAllTheThings('Users', app, passport),
+        teams: getAllTheThings('Teams', app, passport),
+        client: getAllTheThings('Client', app, passport) // Must go last...
     };
 };
