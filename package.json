@@ -11,6 +11,11 @@
   "license": "ISC",
   "dependencies": {
     "app-module-path": "^2.2.0",
+    "babel": "^6.23.0",
+    "babel-cli": "^6.11.4",
+    "babel-core": "^6.13.2",
+    "babel-preset-es2015": "^6.13.2",
+    "babel-preset-react": "^6.11.1",
     "bcrypt-nodejs": "0.0.3",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.16.1",
@@ -36,9 +41,16 @@
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
     "pm2": "^2.4.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "react-router": "^2.6.1",
     "request": "^2.79.0",
     "restify": "^4.3.0"
   },
   "private": true,
-  "devDependencies": {}
+  "devDependencies": {
+    "babel-loader": "^6.2.10",
+    "http-server": "^0.9.0",
+    "webpack": "^1.13.3"
+  }
 }
