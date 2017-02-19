@@ -1,8 +1,13 @@
+var User            = require('./model');
+
 module.exports = function(app, passport) {
     var request = require('request');
 
     app.get('/api/users', function(req, res) {
-        app.api.users.model.find(function(err, users) {
+        User.find(function(err, users) {
+            users.map(function (user){
+              user.local.password = undefined
+            });
             if (err) {
                 return console.log(err);
             }

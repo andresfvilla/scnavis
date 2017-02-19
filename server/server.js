@@ -1,8 +1,23 @@
+// src/server.js
+
 
 // Setup Project Paths so we can just require('your-module')
 // Search /server, /node_modules, and /lib
 var path = require('path');
 var _ = require('lodash');
+
+
+//React stuff
+
+//REACT MODULES
+import { Server } from 'http';
+import Express from 'express';
+import React from 'react';
+import { renderToString } from 'react-dom/server';
+import { match, RouterContext } from 'react-router';
+import routes from '../src/routes';
+import NotFoundPage from '../src/components/NotFoundPage';
+
 //require('app-module-path').addPath(__dirname);
 //require('app-module-path').addPath(path.join(__dirname, "../lib"));
 
@@ -20,8 +35,8 @@ const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 
 var app = express();
+const server = new Server(app);
 const util = require('util')
-
 
 // Config
 app.config = require('./config/config');
@@ -46,7 +61,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 app.set('view engine', 'ejs');
-app.set('views', __dirname + "/views");
+app.set('views', __dirname + "/../src/views");
 
 // Mongoose
 console.log('MongoURL:', app.config.mongo.uri);
@@ -65,8 +80,8 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Serve up any static files
-console.log('Serving static files from: %s', path.join(__dirname, "/../build"));
-app.use(express.static(path.join(__dirname, "/../build")));
+console.log('Serving static files from: %s', path.join(__dirname, "/../src/static"));
+app.use(express.static(path.join(__dirname, "/../src/static")));
 
 //api resources
 app.api = require('./api')(app, passport);
