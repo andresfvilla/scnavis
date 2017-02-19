@@ -6,21 +6,6 @@
 var path = require('path');
 var _ = require('lodash');
 
-
-//React stuff
-
-//REACT MODULES
-import { Server } from 'http';
-import Express from 'express';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
-import { match, RouterContext } from 'react-router';
-import routes from '../src/routes';
-import NotFoundPage from '../src/components/NotFoundPage';
-
-//require('app-module-path').addPath(__dirname);
-//require('app-module-path').addPath(path.join(__dirname, "../lib"));
-
 var cors          = require('cors');
 var express       = require('express');
 var bodyParser    = require('body-parser');
@@ -35,7 +20,6 @@ const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 
 var app = express();
-const server = new Server(app);
 const util = require('util')
 
 // Config

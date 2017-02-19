@@ -10,5 +10,5 @@ module.exports = {
         uri: process.env.MONGO_URL || 'mongodb://localhost/scnavis'
     },
     url: URL,
-    index: path.join(__dirname, '../../build/index.html')
+    index: path.join(__dirname, '../../src/static/index.html')
 };
