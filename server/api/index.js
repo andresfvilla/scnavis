@@ -27,6 +27,7 @@ module.exports = function(app, passport) {
     return {
         users: getAllTheThings('Users', app, passport),
         teams: getAllTheThings('Teams', app, passport),
+        characters: getAllTheThings('Characters', app, passport),
         client: getAllTheThings('Client', app, passport) // Must go last...
     };
 };

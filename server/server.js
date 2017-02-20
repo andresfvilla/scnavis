@@ -1,8 +1,5 @@
 // Babel ES6/JSX Compiler
-require('babel-register')({
-    presets: ['es2015', 'react']
-});
-
+require('babel-register');
 
 // Setup Project Paths so we can just require('your-module')
 // Search /server, /node_modules, and /lib
@@ -23,9 +20,12 @@ const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 var swig          = require('swig');
 var React         = require('react');
+var request = require('request');
 var ReactDOM      = require('react-dom/server');
 var Router        = require('react-router');
 var routes        = require('../app/routes');
+var async = require('async');
+var xml2js = require('xml2js');
 
 var app = express();
 const util = require('util')
@@ -73,7 +73,7 @@ console.log('Serving static files from: %s', path.join(__dirname, "../public"));
 app.use(express.static(path.join(__dirname, "../public")));
 
 //api resources
-//app.api = require('./api')(app, passport);
+app.api = require('./api')(app, passport);
 
 
 app.use(function(req, res) {
