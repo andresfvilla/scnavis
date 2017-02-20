@@ -1,4 +1,7 @@
-// src/server.js
+// Babel ES6/JSX Compiler
+require('babel-register')({
+    presets: ['es2015', 'react']
+});
 
 
 // Setup Project Paths so we can just require('your-module')
@@ -6,9 +9,9 @@
 var path = require('path');
 var _ = require('lodash');
 
+
 var cors          = require('cors');
 var express       = require('express');
-var bodyParser    = require('body-parser');
 var mongoose      = require('mongoose');
 var jwt           = require('express-jwt');
 var passport      = require('passport');
@@ -18,6 +21,11 @@ var bodyParser    = require('body-parser');
 var session       = require('express-session');
 const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
+var swig          = require('swig');
+var React         = require('react');
+var ReactDOM      = require('react-dom/server');
+var Router        = require('react-router');
+var routes        = require('../app/routes');
 
 var app = express();
 const util = require('util')
@@ -41,11 +49,8 @@ app.use(morgan(app.config.env)); // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 
 // get information from html forms
-app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
-
-app.set('view engine', 'ejs');
-app.set('views', __dirname + "/../src/views");
 
 // Mongoose
 console.log('MongoURL:', app.config.mongo.uri);
@@ -64,16 +69,56 @@ app.use(passport.session()); // persistent login sessions
 app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Serve up any static files
-console.log('Serving static files from: %s', path.join(__dirname, "/../src/static"));
-app.use(express.static(path.join(__dirname, "/../src/static")));
+console.log('Serving static files from: %s', path.join(__dirname, "../public"));
+app.use(express.static(path.join(__dirname, "../public")));
 
 //api resources
-app.api = require('./api')(app, passport);
+//app.api = require('./api')(app, passport);
+
+
+app.use(function(req, res) {
+    Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
+      if (err) {
+        res.status(500).send(err.message)
+      } else if (redirectLocation) {
+        res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
+      } else if (renderProps) {
+        var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
+        var page = swig.renderFile('./views/index.html', { html: html });
+        res.status(200).send(page);
+      } else {
+        res.status(404).send('Page Not Found')
+      }
+    });
+});
 
 // Start the server...
-if (require.main === module) {
+// if (require.main === module) {
+//
+//     app.listen(PORT, function() {
+//         console.log("listening on %d", PORT);
+//     });
+// }
 
-    app.listen(PORT, function() {
-        console.log("listening on %d", PORT);
-    });
-}
+
+/**
+ * Socket.io stuff.
+ */
+var server = require('http').createServer(app);
+var io = require('socket.io')(server);
+var onlineUsers = 0;
+
+io.sockets.on('connection', function(socket) {
+  onlineUsers++;
+
+  io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
+
+  socket.on('disconnect', function() {
+    onlineUsers--;
+    io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
+  });
+});
+
+server.listen(PORT, function() {
+  console.log('Express server listening on port ' + PORT);
+});
