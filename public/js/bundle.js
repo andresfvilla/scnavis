@@ -1372,651 +1372,109 @@ var Navbar = function (_React$Component) {
         { className: 'navbar navbar-default navbar-static-top' },
         _react2.default.createElement(
           'div',
-          { className: 'navbar-header' },
+          { className: 'container' },
           _react2.default.createElement(
-            'button',
-            { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar' },
+            'div',
+            { className: 'navbar-header' },
             _react2.default.createElement(
-              'span',
-              { className: 'sr-only' },
-              'Toggle navigation'
-            ),
-            _react2.default.createElement('span', { className: 'icon-bar' }),
-            _react2.default.createElement('span', { className: 'icon-bar' }),
-            _react2.default.createElement('span', { className: 'icon-bar' })
-          ),
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/', className: 'navbar-brand' },
-            _react2.default.createElement(
-              'span',
-              { className: 'triangles animated ' + this.state.ajaxAnimationClass },
-              _react2.default.createElement('div', { className: 'tri invert' }),
-              _react2.default.createElement('div', { className: 'tri invert' }),
-              _react2.default.createElement('div', { className: 'tri' }),
-              _react2.default.createElement('div', { className: 'tri invert' }),
-              _react2.default.createElement('div', { className: 'tri invert' }),
-              _react2.default.createElement('div', { className: 'tri' }),
-              _react2.default.createElement('div', { className: 'tri invert' }),
-              _react2.default.createElement('div', { className: 'tri' }),
-              _react2.default.createElement('div', { className: 'tri invert' })
-            ),
-            'NEF',
-            _react2.default.createElement(
-              'span',
-              { className: 'badge badge-up badge-danger' },
-              this.state.onlineUsers
-            )
-          )
-        ),
-        _react2.default.createElement(
-          'div',
-          { id: 'navbar', className: 'navbar-collapse collapse' },
-          _react2.default.createElement(
-            'form',
-            { ref: 'searchForm', className: 'navbar-form navbar-left animated', onSubmit: this.handleSubmit.bind(this) },
-            _react2.default.createElement(
-              'div',
-              { className: 'input-group' },
-              _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalCharacters + ' characters', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
+              'button',
+              { type: 'button', className: 'navbar-toggle collapsed', 'data-toggle': 'collapse', 'data-target': '#navbar' },
               _react2.default.createElement(
                 'span',
-                { className: 'input-group-btn' },
-                _react2.default.createElement(
-                  'button',
-                  { className: 'btn btn-default', onClick: this.handleSubmit.bind(this) },
-                  _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
-                )
+                { className: 'sr-only' },
+                'Toggle navigation'
+              ),
+              _react2.default.createElement('span', { className: 'icon-bar' }),
+              _react2.default.createElement('span', { className: 'icon-bar' }),
+              _react2.default.createElement('span', { className: 'icon-bar' })
+            ),
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/', className: 'navbar-brand' },
+              _react2.default.createElement(
+                'span',
+                { className: 'triangles animated ' + this.state.ajaxAnimationClass },
+                _react2.default.createElement('div', { className: 'tri invert' }),
+                _react2.default.createElement('div', { className: 'tri invert' }),
+                _react2.default.createElement('div', { className: 'tri' }),
+                _react2.default.createElement('div', { className: 'tri invert' }),
+                _react2.default.createElement('div', { className: 'tri invert' }),
+                _react2.default.createElement('div', { className: 'tri' }),
+                _react2.default.createElement('div', { className: 'tri invert' }),
+                _react2.default.createElement('div', { className: 'tri' }),
+                _react2.default.createElement('div', { className: 'tri invert' })
+              ),
+              'SCNAVIS',
+              _react2.default.createElement(
+                'span',
+                { className: 'badge badge-up badge-danger' },
+                this.state.onlineUsers
               )
             )
           ),
           _react2.default.createElement(
-            'ul',
-            { className: 'nav navbar-nav' },
+            'div',
+            { id: 'navbar', className: 'navbar-collapse collapse' },
             _react2.default.createElement(
-              'li',
-              null,
+              'form',
+              { ref: 'searchForm', className: 'navbar-form navbar-left animated', onSubmit: this.handleSubmit.bind(this) },
               _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/' },
-                'Home'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/stats' },
-                'Stats'
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              { className: 'dropdown' },
-              _react2.default.createElement(
-                'a',
-                { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
-                'Top 100 ',
-                _react2.default.createElement('span', { className: 'caret' })
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'dropdown-menu' },
+                'div',
+                { className: 'input-group' },
+                _react2.default.createElement('input', { type: 'text', className: 'form-control', placeholder: this.state.totalCharacters + ' characters', value: this.state.searchQuery, onChange: _NavbarActions2.default.updateSearchQuery }),
                 _react2.default.createElement(
-                  'li',
-                  null,
+                  'span',
+                  { className: 'input-group-btn' },
                   _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/top' },
-                    'Top Overall'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/top/caldari' },
-                    'Caldari'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/caldari/achura' },
-                        'Achura'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/caldari/civire' },
-                        'Civire'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/caldari/deteis' },
-                        'Deteis'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/top/gallente' },
-                    'Gallente'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/gallente/gallente' },
-                        'Gallente'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/gallente/intaki' },
-                        'Intaki'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/gallente/jin-mei' },
-                        'Jin-Mei'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/top/minmatar' },
-                    'Minmatar'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/minmatar/brutor' },
-                        'Brutor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/minmatar/sebiestor' },
-                        'Sebiestor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/minmatar/vherokior' },
-                        'Vherokior'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/top/amarr' },
-                    'Amarr'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/amarr/amarr' },
-                        'Amarr'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/amarr/ni-kunni' },
-                        'Ni-Kunni'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/top/amarr/khanid' },
-                        'Khanid'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement('li', { className: 'divider' }),
-                _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/shame' },
-                    'Hall of Shame'
+                    'button',
+                    { className: 'btn btn-default', onClick: this.handleSubmit.bind(this) },
+                    _react2.default.createElement('span', { className: 'glyphicon glyphicon-search' })
                   )
                 )
               )
             ),
             _react2.default.createElement(
-              'li',
-              { className: 'dropdown' },
+              'ul',
+              { className: 'nav navbar-nav' },
               _react2.default.createElement(
-                'a',
-                { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
-                'Female ',
-                _react2.default.createElement('span', { className: 'caret' })
+                'li',
+                null,
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/' },
+                  'Home'
+                )
               ),
               _react2.default.createElement(
-                'ul',
-                { className: 'dropdown-menu' },
+                'li',
+                null,
                 _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/female' },
-                    'All'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/female/caldari' },
-                    'Caldari'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/caldari/achura' },
-                        'Achura'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/caldari/civire/' },
-                        'Civire'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/caldari/deteis' },
-                        'Deteis'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/female/gallente' },
-                    'Gallente'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/gallente/gallente' },
-                        'Gallente'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/gallente/intaki' },
-                        'Intaki'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/gallente/jin-mei' },
-                        'Jin-Mei'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/female/minmatar' },
-                    'Minmatar'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/minmatar/brutor' },
-                        'Brutor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/minmatar/sebiestor' },
-                        'Sebiestor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/minmatar/vherokior' },
-                        'Vherokior'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/female/amarr' },
-                    'Amarr'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/amarr/amarr' },
-                        'Amarr'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/amarr/ni-kunni' },
-                        'Ni-Kunni'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/female/amarr/khanid' },
-                        'Khanid'
-                      )
-                    )
-                  )
+                  _reactRouter.Link,
+                  { to: '/add' },
+                  'Add'
                 )
               )
             ),
             _react2.default.createElement(
-              'li',
-              { className: 'dropdown' },
+              'ul',
+              { className: 'nav navbar-nav', style: { "float": "right" } },
               _react2.default.createElement(
-                'a',
-                { href: '#', className: 'dropdown-toggle', 'data-toggle': 'dropdown' },
-                'Male ',
-                _react2.default.createElement('span', { className: 'caret' })
+                'li',
+                null,
+                _react2.default.createElement(
+                  _reactRouter.Link,
+                  { to: '/login' },
+                  'Login'
+                )
               ),
               _react2.default.createElement(
-                'ul',
-                { className: 'dropdown-menu' },
+                'li',
+                null,
                 _react2.default.createElement(
-                  'li',
-                  null,
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/male' },
-                    'All'
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/male/caldari' },
-                    'Caldari'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/caldari/achura' },
-                        'Achura'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/caldari/civire' },
-                        'Civire'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/caldari/deteis' },
-                        'Deteis'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/male/gallente' },
-                    'Gallente'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/gallente/gallente' },
-                        'Gallente'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/gallente/intaki' },
-                        'Intaki'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/gallente/jin-mei' },
-                        'Jin-Mei'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/male/minmatar' },
-                    'Minmatar'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/minmatar/brutor' },
-                        'Brutor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/minmatar/sebiestor' },
-                        'Sebiestor'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/minmatar/vherokior' },
-                        'Vherokior'
-                      )
-                    )
-                  )
-                ),
-                _react2.default.createElement(
-                  'li',
-                  { className: 'dropdown-submenu' },
-                  _react2.default.createElement(
-                    _reactRouter.Link,
-                    { to: '/male/amarr' },
-                    'Amarr'
-                  ),
-                  _react2.default.createElement(
-                    'ul',
-                    { className: 'dropdown-menu' },
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/amarr/amarr' },
-                        'Amarr'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/amarr/ni-kunni' },
-                        'Ni-Kunni'
-                      )
-                    ),
-                    _react2.default.createElement(
-                      'li',
-                      null,
-                      _react2.default.createElement(
-                        _reactRouter.Link,
-                        { to: '/male/amarr/khanid' },
-                        'Khanid'
-                      )
-                    )
-                  )
+                  _reactRouter.Link,
+                  { to: '/signup' },
+                  'Signup'
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'li',
-              null,
-              _react2.default.createElement(
-                _reactRouter.Link,
-                { to: '/add' },
-                'Add'
               )
             )
           )
@@ -2297,6 +1755,10 @@ var _routes = require('./routes');
 
 var _routes2 = _interopRequireDefault(_routes);
 
+var _Navbar = require('./components/Navbar');
+
+var _Navbar2 = _interopRequireDefault(_Navbar);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 var history = (0, _createBrowserHistory2.default)();
@@ -2307,7 +1769,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./routes":18,"history/lib/createBrowserHistory":34,"react":"react","react-dom":"react-dom","react-router":"react-router"}],18:[function(require,module,exports){
+},{"./components/Navbar":15,"./routes":18,"history/lib/createBrowserHistory":34,"react":"react","react-dom":"react-dom","react-router":"react-router"}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2328,9 +1790,9 @@ var _Home = require('./components/Home');
 
 var _Home2 = _interopRequireDefault(_Home);
 
-var _AddCharacter = require('./components/AddCharacter');
+var _Stats = require('./components/Stats');
 
-var _AddCharacter2 = _interopRequireDefault(_AddCharacter);
+var _Stats2 = _interopRequireDefault(_Stats);
 
 var _Character = require('./components/Character');
 
@@ -2340,9 +1802,9 @@ var _CharacterList = require('./components/CharacterList');
 
 var _CharacterList2 = _interopRequireDefault(_CharacterList);
 
-var _Stats = require('./components/Stats');
+var _AddCharacter = require('./components/AddCharacter');
 
-var _Stats2 = _interopRequireDefault(_Stats);
+var _AddCharacter2 = _interopRequireDefault(_AddCharacter);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -2350,10 +1812,9 @@ exports.default = _react2.default.createElement(
   _reactRouter.Route,
   { component: _App2.default },
   _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddCharacter2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/characters/:id', component: _Character2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/shame', component: _CharacterList2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/stats', component: _Stats2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/characters/:id', component: _Character2.default }),
+  _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddCharacter2.default }),
   _react2.default.createElement(
     _reactRouter.Route,
     { path: ':category', component: _CharacterList2.default },

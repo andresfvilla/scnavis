@@ -18,12 +18,7 @@ var bodyParser    = require('body-parser');
 var session       = require('express-session');
 const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
-var swig          = require('swig');
-var React         = require('react');
-var request = require('request');
-var ReactDOM      = require('react-dom/server');
-var Router        = require('react-router');
-var routes        = require('../app/routes');
+var request       = require('request');
 var async = require('async');
 var xml2js = require('xml2js');
 
@@ -54,7 +49,6 @@ app.use(bodyParser.json());
 
 // Mongoose
 console.log('MongoURL:', app.config.mongo.uri);
-//app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 app.db = mongoose.connect(app.config.mongo.uri, app.config.mongo.options);
 
 app.use(session({
@@ -76,30 +70,22 @@ app.use(express.static(path.join(__dirname, "../public")));
 app.api = require('./api')(app, passport);
 
 
-app.use(function(req, res) {
-    Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
-      if (err) {
-        res.status(500).send(err.message)
-      } else if (redirectLocation) {
-        res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
-      } else if (renderProps) {
-        var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
-        var page = swig.renderFile('./views/index.html', { html: html });
-        res.status(200).send(page);
-      } else {
-        res.status(404).send('Page Not Found')
-      }
-    });
-});
-
-// Start the server...
-// if (require.main === module) {
-//
-//     app.listen(PORT, function() {
-//         console.log("listening on %d", PORT);
+// app.use(function(req, res) {
+//     console.log("testing")
+//     Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
+//       if (err) {
+//         res.status(500).send(err.message)
+//       } else if (redirectLocation) {
+//         res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
+//       } else if (renderProps) {
+//         var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
+//         var page = swig.renderFile('./views/index.html', { html: html });
+//         res.status(200).send(page);
+//       } else {
+//         res.status(404).send('Page Not Found')
+//       }
 //     });
-// }
-
+// });
 
 /**
  * Socket.io stuff.
