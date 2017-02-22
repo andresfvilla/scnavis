@@ -11,7 +11,7 @@ class UserList extends React.Component {
     this.onChange = this.onChange.bind(this);
   }
 
-  componentDidMount() {
+    componentDidMount() {
     UserListStore.listen(this.onChange);
     UserListActions.getUsers(this.props.params);
   }
@@ -31,22 +31,26 @@ class UserList extends React.Component {
   }
 
   render() {
-    let UsersList = this.state.users.map((user, index) => {
+    let usersList = this.state.users.map((user, index) => {
       return (
-        <div key={use.displayName} className='list-group-item animated fadeIn'>
+        <div key={user.local.displayName} className='list-group-item animated fadeIn'>
           <div className='media'>
             <span className='position pull-left'>{index + 1}</span>
             <div className='pull-left thumb-lg'>
-              // <Link to={'/users/' + user.id}>
-              //   <img className='media-object' src={'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg'} />
-              // </Link>
+              <Link to={'/users/' + user._id}>
+                <img className='media-object' src={'http://image.eveonline.com/Character/' + 'test_128.jpg'} />
+              </Link>
             </div>
             <div className='media-body'>
               <h4 className='media-heading'>
-                <Link to={'/users/' + users.displayName}>{user.displayName}</Link>
+                <Link to={'/users/' + user.local.displayName}>{user.local.displayName}</Link>
               </h4>
               <br />
-              <small>Wins: <strong>{user.wins}</strong> Losses: <strong>{user.losses}</strong></small>
+              <small>Teams: <strong>{user.local.teams}</strong></small>
+              <br />
+              <small>Organizations: <strong>{user.local.organizations}</strong></small>
+              <br />
+              <small>Wins: <strong>{user.local.wins}</strong> Losses: <strong>{user.local.losses}</strong></small>
             </div>
           </div>
         </div>

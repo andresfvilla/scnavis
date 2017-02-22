@@ -2129,10 +2129,10 @@ var UserList = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var UsersList = this.state.users.map(function (user, index) {
+      var usersList = this.state.users.map(function (user, index) {
         return _react2.default.createElement(
           'div',
-          { key: use.displayName, className: 'list-group-item animated fadeIn' },
+          { key: user.local.displayName, className: 'list-group-item animated fadeIn' },
           _react2.default.createElement(
             'div',
             { className: 'media' },
@@ -2144,13 +2144,10 @@ var UserList = function (_React$Component) {
             _react2.default.createElement(
               'div',
               { className: 'pull-left thumb-lg' },
-              '// ',
               _react2.default.createElement(
                 _reactRouter.Link,
-                { to: '/users/' + user.id },
-                '//   ',
-                _react2.default.createElement('img', { className: 'media-object', src: 'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg' }),
-                '// '
+                { to: '/users/' + user._id },
+                _react2.default.createElement('img', { className: 'media-object', src: 'http://image.eveonline.com/Character/' + 'test_128.jpg' })
               )
             ),
             _react2.default.createElement(
@@ -2161,8 +2158,30 @@ var UserList = function (_React$Component) {
                 { className: 'media-heading' },
                 _react2.default.createElement(
                   _reactRouter.Link,
-                  { to: '/users/' + users.displayName },
-                  user.displayName
+                  { to: '/users/' + user.local.displayName },
+                  user.local.displayName
+                )
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'small',
+                null,
+                'Teams: ',
+                _react2.default.createElement(
+                  'strong',
+                  null,
+                  user.local.teams
+                )
+              ),
+              _react2.default.createElement('br', null),
+              _react2.default.createElement(
+                'small',
+                null,
+                'Organizations: ',
+                _react2.default.createElement(
+                  'strong',
+                  null,
+                  user.local.organizations
                 )
               ),
               _react2.default.createElement('br', null),
@@ -2173,13 +2192,13 @@ var UserList = function (_React$Component) {
                 _react2.default.createElement(
                   'strong',
                   null,
-                  user.wins
+                  user.local.wins
                 ),
                 ' Losses: ',
                 _react2.default.createElement(
                   'strong',
                   null,
-                  user.losses
+                  user.local.losses
                 )
               )
             )
@@ -2299,15 +2318,11 @@ exports.default = _react2.default.createElement(
   _react2.default.createElement(_reactRouter.Route, { path: '/stats', component: _Stats2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/shame', component: _CharacterList2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/characters/:id', component: _Character2.default }),
-  '//',
-  _react2.default.createElement(_reactRouter.Route, { path: '/users/:id', component: User }),
-  '//',
   _react2.default.createElement(_reactRouter.Route, { path: '/users', component: _UserList2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddCharacter2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default }),
   _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
 );
-//import User from './components/User';
 
 },{"./components/AddCharacter":11,"./components/App":12,"./components/Character":13,"./components/CharacterList":14,"./components/Home":16,"./components/NotFoundPage":18,"./components/Signup":19,"./components/Stats":20,"./components/UserList":21,"react":"react","react-router":"react-router"}],24:[function(require,module,exports){
 'use strict';
@@ -2879,6 +2894,7 @@ var UserListStore = function () {
   _createClass(UserListStore, [{
     key: 'onGetUsersSuccess',
     value: function onGetUsersSuccess(data) {
+      console.log(data);
       this.users = data;
     }
   }, {
