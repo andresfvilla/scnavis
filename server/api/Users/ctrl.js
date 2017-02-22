@@ -15,6 +15,10 @@ module.exports = function(app, passport) {
         });
     });
 
+    app.get('/api/users/:id', function(req, res) {
+        console.log("testing id call for user");
+    });
+
     //     // =====================================
     //     // HOME PAGE (with login links) ========
     //     // =====================================
@@ -39,12 +43,12 @@ module.exports = function(app, passport) {
     //         failureFlash : true // allow flash messages
     //     }));
 
-        //process the signup form
-        app.post('/api/signup', passport.authenticate('local-signup', {
-            successRedirect : '/profile', // redirect to the secure profile section
-            failureRedirect : '/signup', // redirect back to the signup page if there is an error
-            failureFlash : true // allow flash messages
-        }));
+    //process the signup form
+    app.post('/api/signup', passport.authenticate('local-signup', {
+        successRedirect : '/profile', // redirect to the secure profile section
+        failureRedirect : '/signup', // redirect back to the signup page if there is an error
+        failureFlash : true // allow flash messages
+    }));
 
     //
     //     // =====================================

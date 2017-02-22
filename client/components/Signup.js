@@ -24,20 +24,17 @@ class Signup extends React.Component {
   handleSubmit(event) {
     event.preventDefault();
 
-    var username = this.state.username.trim();
+    var email = this.state.email.trim();
+    var displayName = this.state.displayName.trim();
     var password = this.state.password.trim();
-    // var email = this.state.email.trim();
-    // var rsiHandle = this.state.rsiHandle.trim();
-    console.log('test');
 
-    // if (!username || !password || !name || !email || !rsiHandle) {
-    //   SignupActions.invalidSignup();
-    //   //this.refs.nameTextField.getDOMNode().focus();
-    // }
+    if (!email || !displayName || !password) {
+      SignupActions.invalidSignup();
+      //this.refs.nameTextField.getDOMNode().focus();
+    }
 
-    //if (username && password && name && email && rsiHandle) {
-    if (username && password) {
-      SignupActions.addUser(username, password);
+    if (email && displayName && password) {
+      SignupActions.addUser(email, displayName, password);
     }
   }
 
@@ -50,16 +47,22 @@ class Signup extends React.Component {
               <div className='panel-heading'>Signup</div>
               <div className='panel-body'>
                 <form onSubmit={this.handleSubmit.bind(this)}>
-                  <div className={'form-group ' + this.state.usernameValidationState}>
-                    <label className='control-label'>Username</label>
-                    <input type='text' className='form-control' ref='usernameTextField' value={this.state.username}
-                           onChange={SignupActions.updateUsername} autoFocus/>
+                  <div className={'form-group ' + this.state.emailValidationState}>
+                    <label className='control-label'>Email</label>
+                    <input type='text' className='form-control' ref='emailTextField' value={this.state.email}
+                           onChange={SignupActions.updateEmail} autoFocus/>
+                    <span className='help-block'>{this.state.helpBlock}</span>
+                  </div>
+                  <div className={'form-group ' + this.state.displayNameValidationState}>
+                    <label className='control-label'>Display Name (This will be the name that is displayed on SCNAVIS)</label>
+                    <input type='text' className='form-control' ref='displayNameTextField' value={this.state.displayName}
+                           onChange={SignupActions.updateDisplayName} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
                   <div className={'form-group ' + this.state.passwordValidationState}>
                     <label className='control-label'>Password</label>
-                    <input type='text' className='form-control' ref='passwordTextField' value={this.state.password}
-                           onChange={SignupActions.updatePasword} autoFocus/>
+                    <input type='password' className='form-control' ref='passwordTextField' value={this.state.password}
+                           onChange={SignupActions.updatePassword} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
                   <button type='submit' className='btn btn-primary'>Submit</button>

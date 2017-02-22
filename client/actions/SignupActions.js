@@ -5,22 +5,20 @@ class SignupActions {
     this.generateActions(
       'signupSuccess',
       'signupFail',
-      'updateUsername',
+      'updateDisplayName',
       'updatePassword',
       'updateEmail',
-      'updateRsiHandle',
-      'invalidUsername',
+      'invalidDisplayName',
       'invalidPassword',
       'invalidEmail',
-      'invalidRsiHandle'
     );
   }
 
-  addUser(username, password) {
+  addUser(email, displayName, password) {
     $.ajax({
       type: 'POST',
       url: '/api/signup',
-      data: { username: username, password: password}
+      data: { email: email, displayName:displayName, password: password}
     })
       .done((data) => {
         this.actions.signupSuccess(data.message);

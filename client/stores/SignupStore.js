@@ -4,26 +4,34 @@ import SignupActions from '../actions/SignupActions';
 class SignupStore {
   constructor() {
     this.bindActions(SignupActions);
-    this.username = '';
+    this.email = '';
+    this.displayName = '';
     this.password = '';
     this.helpBlock = '';
-    this.usernameValidationState = '';
+    this.emailValidationState = '';
+    this.displayNameValidationState = '';
     this.passwordValidationState = '';
   }
 
   onSignupSuccess(successMessage) {
-    this.usernameValidationState = 'has-success';
+    this.displayNameValidationState = 'has-success';
     this.helpBlock = successMessage;
   }
 
   onSignupFail(errorMessage) {
-    this.usernameValidationState = 'has-error';
+    this.displayNameValidationState = 'has-error';
     this.helpBlock = errorMessage;
   }
 
-  onUpdateUsername(event) {
-    this.username = event.target.value;
-    this.usernameValidationState = '';
+  onUpdateEmail(event) {
+    this.email = event.target.value;
+    this.emailValidationState = '';
+    this.helpBlock = '';
+  }
+
+  onUpdateDisplayName(event) {
+    this.displayName = event.target.value;
+    this.displayNameValidationState = '';
     this.helpBlock = '';
   }
 
@@ -44,8 +52,13 @@ class SignupStore {
     this.helpBlock = '';
   }
 
-  onInvalidUsername() {
-    this.usernameValidationState = 'has-error';
+  onInvalidEmail() {
+    this.emailValidationState = 'has-error';
+    this.helpBlock = 'Please enter an email.';
+  }
+
+  onInvalidDisplayName() {
+    this.displayNameValidationState = 'has-error';
     this.helpBlock = 'Please enter a character name.';
   }
 

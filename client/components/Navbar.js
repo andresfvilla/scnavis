@@ -91,7 +91,7 @@ class Navbar extends React.Component {
           </form>
           <ul className='nav navbar-nav'>
             <li><Link to='/'>Home</Link></li>
-            <li><Link to='/add'>Add</Link></li>
+            <li><Link to='/users'>Users</Link></li>
           </ul>
           <ul className='nav navbar-nav' style={{"float": "right"}}>
             <li><Link to='/login'>Login</Link></li>
