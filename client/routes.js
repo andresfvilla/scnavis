@@ -6,17 +6,16 @@ import Stats from './components/Stats';
 import Character from './components/Character';
 import CharacterList from './components/CharacterList';
 import AddCharacter from './components/AddCharacter';
+import Signup from './components/Signup'
+import NotFoundPage from './components/NotFoundPage';
 
 export default (
   <Route component={App}>
     <Route path='/' component={Home} />
     <Route path='/stats' component={Stats} />
-    <Route path='/characters/:id' component={Character} />
+    <Route path='/shame' component={CharacterList} />
     <Route path='/add' component={AddCharacter} />
-    <Route path=':category' component={CharacterList}>
-      <Route path=':race' component={CharacterList}>
-        <Route path=':bloodline' component={CharacterList} />
-      </Route>
-    </Route>
+    <Route path='/signup' component={Signup} />
+    <Route path="*" component={NotFoundPage}/>
   </Route>
 );
