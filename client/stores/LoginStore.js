@@ -1,25 +1,22 @@
 import alt from '../alt';
-import SignupActions from '../actions/SignupActions';
+import LoginActions from '../actions/LoginActions';
 
-class SignupStore {
+class LoginStore {
   constructor() {
-    this.bindActions(SignupActions);
+    this.bindActions(LoginActions);
     this.email = '';
-    this.displayName = '';
     this.password = '';
     this.helpBlock = '';
     this.emailValidationState = '';
-    this.displayNameValidationState = '';
     this.passwordValidationState = '';
   }
 
-  onSignupSuccess(successMessage) {
-    console.log(this);
+  onLoginSuccess(successMessage) {
     this.displayNameValidationState = 'has-success';
     this.helpBlock = successMessage;
   }
 
-  onSignupFail(errorMessage) {
+  onLoginFail(errorMessage) {
     this.displayNameValidationState = 'has-error';
     this.helpBlock = errorMessage;
   }
@@ -69,4 +66,4 @@ class SignupStore {
   }
 }
 
-export default alt.createStore(SignupStore);
+export default alt.createStore(LoginStore);

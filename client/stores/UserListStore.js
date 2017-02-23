@@ -8,7 +8,6 @@ class UserListStore {
   }
 
   onGetUsersSuccess(data) {
-    console.log(data);
     this.users = data;
   }
 

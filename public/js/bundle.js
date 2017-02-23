@@ -1666,6 +1666,8 @@ var _SignupActions = require('../actions/SignupActions');
 
 var _SignupActions2 = _interopRequireDefault(_SignupActions);
 
+var _reactRouter = require('react-router');
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -1813,7 +1815,7 @@ var Signup = function (_React$Component) {
 
 exports.default = Signup;
 
-},{"../actions/SignupActions":7,"../stores/SignupStore":30,"react":"react"}],20:[function(require,module,exports){
+},{"../actions/SignupActions":7,"../stores/SignupStore":30,"react":"react","react-router":"react-router"}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -2312,16 +2314,20 @@ var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 exports.default = _react2.default.createElement(
-  _reactRouter.Route,
-  { component: _App2.default },
-  _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/stats', component: _Stats2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/shame', component: _CharacterList2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/characters/:id', component: _Character2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/users', component: _UserList2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddCharacter2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default }),
-  _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
+  _reactRouter.Router,
+  { history: _reactRouter.browserHistory },
+  _react2.default.createElement(
+    _reactRouter.Route,
+    { component: _App2.default },
+    _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/stats', component: _Stats2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/shame', component: _CharacterList2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/characters/:id', component: _Character2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/users', component: _UserList2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/add', component: _AddCharacter2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
+  )
 );
 
 },{"./components/AddCharacter":11,"./components/App":12,"./components/Character":13,"./components/CharacterList":14,"./components/Home":16,"./components/NotFoundPage":18,"./components/Signup":19,"./components/Stats":20,"./components/UserList":21,"react":"react","react-router":"react-router"}],24:[function(require,module,exports){
@@ -2736,6 +2742,7 @@ var SignupStore = function () {
   _createClass(SignupStore, [{
     key: 'onSignupSuccess',
     value: function onSignupSuccess(successMessage) {
+      console.log(this);
       this.displayNameValidationState = 'has-success';
       this.helpBlock = successMessage;
     }
@@ -2894,7 +2901,6 @@ var UserListStore = function () {
   _createClass(UserListStore, [{
     key: 'onGetUsersSuccess',
     value: function onGetUsersSuccess(data) {
-      console.log(data);
       this.users = data;
     }
   }, {
