@@ -19,6 +19,7 @@ var session       = require('express-session');
 const MongoStore  = require('connect-mongo')(session);
 var flash         = require('connect-flash');
 var request       = require('request');
+var favicon       = require('serve-favicon');
 var async = require('async');
 var xml2js = require('xml2js');
 
@@ -64,6 +65,7 @@ app.use(flash()); // use connect-flash for flash messages stored in session
 
 // Serve up any static files
 console.log('Serving static files from: %s', path.join(__dirname, "../public"));
+app.use(favicon(path.join(__dirname, 'public', 'favicon.png')));
 app.use(express.static(path.join(__dirname, "../public")));
 
 //api resources
