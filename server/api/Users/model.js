@@ -8,7 +8,7 @@ var userSchema = new mongoose.Schema({
   local: {
     name: String,
     rsiHandle: String,
-    username: String,
+    displayName: String,
     email: String,
     timezone: String,
     password: String,
