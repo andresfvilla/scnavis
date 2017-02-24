@@ -1,20 +1,23 @@
 import React from 'react';
-import SignupStore from '../stores/LoginStore';
-import SignupActions from '../actions/LoginActions';
+import SignupStore from './SignupStore';
+import SignupActions from './SignupActions';
+import {Router, browserHistory} from 'react-router';
 
-class Login extends React.Component {
+
+class Signup extends React.Component {
+
   constructor(props) {
     super(props);
-    this.state = LoginStore.getState();
+    this.state = SignupStore.getState();
     this.onChange = this.onChange.bind(this);
   }
 
   componentDidMount() {
-    LoginStore.listen(this.onChange);
+    SignupStore.listen(this.onChange);
   }
 
   componentWillUnmount() {
-    LoginStore.unlisten(this.onChange);
+    SignupStore.unlisten(this.onChange);
   }
 
   onChange(state) {
@@ -25,15 +28,16 @@ class Login extends React.Component {
     event.preventDefault();
 
     var email = this.state.email.trim();
+    var displayName = this.state.displayName.trim();
     var password = this.state.password.trim();
 
-    if (!email || !password) {
-      LoginActions.invalidLogin();
+    if (!email || !displayName || !password) {
+      SignupActions.invalidSignup();
       //this.refs.nameTextField.getDOMNode().focus();
     }
 
-    if (email && password) {
-      LoginActions.login(email, password);
+    if (email && displayName && password) {
+      SignupActions.addUser(email, displayName, password);
     }
   }
 
@@ -45,17 +49,23 @@ class Login extends React.Component {
             <div className='panel panel-default'>
               <div className='panel-heading'>Signup</div>
               <div className='panel-body'>
-                <form onSubmit={this.handleLogin.bind(this)}>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                   <div className={'form-group ' + this.state.emailValidationState}>
                     <label className='control-label'>Email</label>
                     <input type='text' className='form-control' ref='emailTextField' value={this.state.email}
-                           onChange={LoginActions.updateEmail} autoFocus/>
+                           onChange={SignupActions.updateEmail} autoFocus/>
+                    <span className='help-block'>{this.state.helpBlock}</span>
+                  </div>
+                  <div className={'form-group ' + this.state.displayNameValidationState}>
+                    <label className='control-label'>Display Name (This will be the name that is displayed on SCNAVIS)</label>
+                    <input type='text' className='form-control' ref='displayNameTextField' value={this.state.displayName}
+                           onChange={SignupActions.updateDisplayName} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
                   <div className={'form-group ' + this.state.passwordValidationState}>
                     <label className='control-label'>Password</label>
                     <input type='password' className='form-control' ref='passwordTextField' value={this.state.password}
-                           onChange={LoginActions.updatePassword} autoFocus/>
+                           onChange={SignupActions.updatePassword} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
                   <button type='submit' className='btn btn-primary'>Submit</button>

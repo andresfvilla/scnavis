@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import FooterStore from '../stores/FooterStore'
-import FooterActions from '../actions/FooterActions';
+import FooterStore from './FooterStore'
+import FooterActions from './FooterActions';
 
 class Footer extends React.Component {
   constructor(props) {
