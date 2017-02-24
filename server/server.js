@@ -69,24 +69,6 @@ app.use(express.static(path.join(__dirname, "../public")));
 //api resources
 app.api = require('./api')(app, passport);
 
-
-// app.use(function(req, res) {
-//     console.log("testing")
-//     Router.match({ routes: routes.default, location: req.url }, function(err, redirectLocation, renderProps) {
-//       if (err) {
-//         res.status(500).send(err.message)
-//       } else if (redirectLocation) {
-//         res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
-//       } else if (renderProps) {
-//         var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
-//         var page = swig.renderFile('./views/index.html', { html: html });
-//         res.status(200).send(page);
-//       } else {
-//         res.status(404).send('Page Not Found')
-//       }
-//     });
-// });
-
 /**
  * Socket.io stuff.
  */

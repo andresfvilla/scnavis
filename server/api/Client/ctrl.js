@@ -14,7 +14,7 @@ module.exports = function(app, passport) {
         res.status(302).redirect(redirectLocation.pathname + redirectLocation.search)
       } else if (renderProps) {
           var html = ReactDOM.renderToString(React.createElement(Router.RoutingContext, renderProps));
-          var page = swig.renderFile('views/index.html', { html: html });
+          var page = swig.renderFile('client/index.html', { html: html });
           res.status(200).send(page);
       } else {
         res.status(404).send('Page Not Found')

@@ -1,8 +1,8 @@
 import React from 'react';
 import {Link} from 'react-router';
 import {isEqual} from 'underscore';
-import UserListStore from '../stores/UserListStore';
-import UserListActions from '../actions/UserListActions';
+import UserListStore from './UserListStore';
+import UserListActions from './UserListActions';
 
 class UserList extends React.Component {
   constructor(props) {

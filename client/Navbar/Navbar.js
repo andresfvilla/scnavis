@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
-import NavbarStore from '../stores/NavbarStore';
-import NavbarActions from '../actions/NavbarActions';
+import NavbarStore from './NavbarStore';
+import NavbarActions from './NavbarActions';
 
 class Navbar extends React.Component {
   constructor(props) {
