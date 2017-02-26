@@ -1220,7 +1220,7 @@ var UserList = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouter.Link,
                 { to: '/users/' + user._id },
-                _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' + 'default_picture.png' })
+                _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' })
               )
             ),
             _react2.default.createElement(
