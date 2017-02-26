@@ -23,7 +23,7 @@ module.exports = function(app, passport) {
   });
 
   app.use(function(err, req, res, next) {
-    console.log(err.stack.red);
+    console.log(err.stack);
     res.status(err.status || 500);
     res.send({ message: err.message });
   });

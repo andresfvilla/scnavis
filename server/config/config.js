@@ -1,5 +1,6 @@
 var path = require('path');
 var PORT = process.env.PORT || 3000;
+var data_root = process.env.LAMBO_DATA || path.join(__dirname, "../data");
 var URL = 'http://localhost:' + PORT;
 
 module.exports = {
@@ -8,5 +9,6 @@ module.exports = {
     mongo: {
         uri: process.env.MONGO_URL || 'mongodb://localhost/scnavis'
     },
-    url: URL,
+    imageDest: "server/public/img/profiles/",
+    url: URL
 };

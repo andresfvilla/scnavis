@@ -10,6 +10,7 @@ var userSchema = new mongoose.Schema({
     rsiHandle: String,
     displayName: String,
     email: String,
+    profilePicture: String,
     timezone: String,
     password: String,
     organization: [String],
