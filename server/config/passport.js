@@ -1,8 +1,11 @@
 // load all the things we need
-var LocalStrategy   = require('passport-local').Strategy;
+var LocalStrategy = require('passport-local').Strategy;
 
 // load up the user model
-var User            = require('../api/Users/model');
+var User = require('../api/Users/model');
+var Image = require('../api/Images/ctrl');
+var config = require('../config/config');
+
 
 // expose this function to our app using module.exports
 module.exports = function(passport) {
@@ -67,6 +70,7 @@ module.exports = function(passport) {
                 newUser.local.losses = 0;
                 newUser.local.kills = 0;
                 newUser.local.deaths = 0;
+                newUser.local.profilePicture = "../public/img/profile/" + "default_profile.png";
 
 
                 // save the user

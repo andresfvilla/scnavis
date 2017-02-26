@@ -117,18 +117,6 @@ var Footer = function (_React$Component) {
   }, {
     key: 'render',
     value: function render() {
-      var leaderboardCharacters = this.state.characters.map(function (character) {
-        return _react2.default.createElement(
-          'li',
-          { key: character.characterId },
-          _react2.default.createElement(
-            _reactRouter.Link,
-            { to: '/characters/' + character.characterId },
-            _react2.default.createElement('img', { className: 'thumb-md', src: 'http://image.eveonline.com/Character/' + character.characterId + '_128.jpg' })
-          )
-        );
-      });
-
       return _react2.default.createElement(
         'footer',
         null,
@@ -147,72 +135,23 @@ var Footer = function (_React$Component) {
                 _react2.default.createElement(
                   'strong',
                   null,
-                  'Information'
-                ),
-                ' and ',
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'Copyright'
+                  'SCNAVIS'
                 )
               ),
               _react2.default.createElement(
                 'p',
                 null,
-                'Powered by ',
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'Node.js'
-                ),
-                ', ',
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'MongoDB'
-                ),
-                ' and ',
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'React'
-                ),
-                ' with Flux architecture and server-side rendering.'
+                'Tournament organizer. Come challenge friends.'
               ),
               _react2.default.createElement(
                 'p',
                 null,
-                'You may view the ',
-                _react2.default.createElement(
-                  'a',
-                  { href: 'https://github.com/sahat/newedenfaces-react' },
-                  'Source Code'
-                ),
-                ' behind this project on GitHub.'
+                'what else should i put?'
               ),
               _react2.default.createElement(
                 'p',
                 null,
-                '\xA9 2015 Sahat Yalkabov.'
-              )
-            ),
-            _react2.default.createElement(
-              'div',
-              { className: 'col-sm-7 hidden-xs' },
-              _react2.default.createElement(
-                'h3',
-                { className: 'lead' },
-                _react2.default.createElement(
-                  'strong',
-                  null,
-                  'Leaderboard'
-                ),
-                ' Top 5 Characters'
-              ),
-              _react2.default.createElement(
-                'ul',
-                { className: 'list-inline' },
-                leaderboardCharacters
+                '\xA9 2017 Andres Villa.'
               )
             )
           )
@@ -1281,7 +1220,7 @@ var UserList = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouter.Link,
                 { to: '/users/' + user._id },
-                _react2.default.createElement('img', { className: 'media-object', src: 'http://image.eveonline.com/Character/' + 'test_128.jpg' })
+                _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' + user._id })
               )
             ),
             _react2.default.createElement(

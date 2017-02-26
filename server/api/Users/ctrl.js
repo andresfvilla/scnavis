@@ -1,4 +1,5 @@
 var User            = require('./model');
+var path = require('path');
 
 module.exports = function(app, passport) {
     var request = require('request');
@@ -6,7 +7,7 @@ module.exports = function(app, passport) {
     app.get('/api/users', function(req, res) {
         User.find(function(err, users) {
             users.map(function (user){
-              user.local.password = undefined
+              user.local.password = undefined;
             });
             if (err) {
                 return console.log(err);
@@ -15,9 +16,16 @@ module.exports = function(app, passport) {
         });
     });
 
+
+    app.get('/api/profilepicture', function(req, res) {
+      console.log("profilepicture")
+      res.sendFile(path.join(__dirname, '../../public/img/profiles', 'default_picture.png'));
+    });
+
     app.get('/api/users/:id', function(req, res) {
         console.log("testing id call for user");
     });
+
 
     //     // =====================================
     //     // HOME PAGE (with login links) ========
