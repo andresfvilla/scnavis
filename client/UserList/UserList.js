@@ -38,7 +38,7 @@ class UserList extends React.Component {
             <span className='position pull-left'>{index + 1}</span>
             <div className='pull-left thumb-lg'>
               <Link to={'/users/' + user._id}>
-                <img className='media-object' src={'/api/profilepicture/' + user._id} />
+                <img className='media-object' src={'/api/profilepicture/' + 'default_picture.png'} />
               </Link>
             </div>
             <div className='media-body'>
