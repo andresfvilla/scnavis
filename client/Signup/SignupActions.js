@@ -21,9 +21,12 @@ class SignupActions {
       data: { email: email, displayName:displayName, password: password}
     })
       .done((data) => {
+        console.log("success signup")
+        window.location.replace("/"); 
         this.actions.signupSuccess(data.message);
       })
       .fail((jqXhr) => {
+        console.log("failed signup")
         this.actions.signupFail(jqXhr.responseJSON.message);
       });
   }

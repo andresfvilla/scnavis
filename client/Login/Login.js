@@ -1,6 +1,6 @@
 import React from 'react';
-import SignupStore from './LoginStore';
-import SignupActions from './LoginActions';
+import LoginStore from './LoginStore';
+import LoginActions from './LoginActions';
 
 class Login extends React.Component {
   constructor(props) {
@@ -43,9 +43,9 @@ class Login extends React.Component {
         <div className='row flipInX animated'>
           <div className='col-sm-8'>
             <div className='panel panel-default'>
-              <div className='panel-heading'>Signup</div>
+              <div className='panel-heading'>Login</div>
               <div className='panel-body'>
-                <form onSubmit={this.handleLogin.bind(this)}>
+                <form onSubmit={this.handleSubmit.bind(this)}>
                   <div className={'form-group ' + this.state.emailValidationState}>
                     <label className='control-label'>Email</label>
                     <input type='text' className='form-control' ref='emailTextField' value={this.state.email}
@@ -69,4 +69,4 @@ class Login extends React.Component {
   }
 }
 
-export default Signup;
+export default Login;

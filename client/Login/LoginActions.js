@@ -14,7 +14,7 @@ class LoginActions {
     );
   }
 
-  addUser(email, displayName, password) {
+  login(email, displayName, password) {
     $.ajax({
       type: 'POST',
       url: '/api/login',
