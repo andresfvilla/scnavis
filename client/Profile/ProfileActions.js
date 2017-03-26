@@ -1,38 +1,25 @@
 import alt from '../alt';
 
-class CharacterActions {
+class ProfileActions {
   constructor() {
     this.generateActions(
       'reportSuccess',
       'reportFail',
-      'getCharacterSuccess',
-      'getCharacterFail'
+      'getProfileSuccess',
+      'getProfileFail'
     );
   }
 
-  getCharacter(characterId) {
-    $.ajax({ url: '/api/characters/' + characterId })
+  getProfile() {
+    $.ajax({ url: '/api/profile'})
       .done((data) => {
-        this.actions.getCharacterSuccess(data);
+        console.log(data)
+        this.actions.getProfileSuccess(data);
       })
       .fail((jqXhr) => {
-        this.actions.getCharacterFail(jqXhr);
-      });
-  }
-
-  report(characterId) {
-    $.ajax({
-      type: 'POST',
-      url: '/api/report',
-      data: { characterId: characterId }
-    })
-      .done(() => {
-        this.actions.reportSuccess();
-      })
-      .fail((jqXhr) => {
-        this.actions.reportFail(jqXhr);
+        this.actions.getProfileFail(jqXhr);
       });
   }
 }
 
-export default alt.createActions(CharacterActions);
+export default alt.createActions(ProfileActions);

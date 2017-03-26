@@ -14,13 +14,14 @@ class LoginActions {
     );
   }
 
-  login(email, displayName, password) {
+  login(email, password) {
     $.ajax({
       type: 'POST',
       url: '/api/login',
       data: { email: email, password: password}
     })
       .done((data) => {
+        window.location.replace("/profile");
         this.actions.loginSuccess(data.message);
       })
       .fail((jqXhr) => {

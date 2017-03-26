@@ -207,7 +207,7 @@ var FooterActions = function () {
 
 exports.default = _alt2.default.createActions(FooterActions);
 
-},{"../alt":21}],4:[function(require,module,exports){
+},{"../alt":24}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -254,7 +254,7 @@ var FooterStore = function () {
 
 exports.default = _alt2.default.createStore(FooterStore);
 
-},{"../alt":21,"./FooterActions":3}],5:[function(require,module,exports){
+},{"../alt":24,"./FooterActions":3}],5:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -361,7 +361,7 @@ var HomeActions = function HomeActions() {
 
 exports.default = _alt2.default.createActions(HomeActions);
 
-},{"../alt":21}],7:[function(require,module,exports){
+},{"../alt":24}],7:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -388,7 +388,7 @@ var HomeStore = function HomeStore() {
 
 exports.default = _alt2.default.createStore(HomeStore);
 
-},{"../alt":21,"./HomeActions":6}],8:[function(require,module,exports){
+},{"../alt":24,"./HomeActions":6}],8:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -459,6 +459,7 @@ var Login = function (_React$Component) {
       }
 
       if (email && password) {
+        console.log(email + " password:" + password);
         _LoginActions2.default.login(email, password);
       }
     }
@@ -565,7 +566,7 @@ var LoginActions = function () {
 
   _createClass(LoginActions, [{
     key: 'login',
-    value: function login(email, displayName, password) {
+    value: function login(email, password) {
       var _this = this;
 
       $.ajax({
@@ -573,6 +574,7 @@ var LoginActions = function () {
         url: '/api/login',
         data: { email: email, password: password }
       }).done(function (data) {
+        window.location.replace("/profile");
         _this.actions.loginSuccess(data.message);
       }).fail(function (jqXhr) {
         _this.actions.loginFail(jqXhr.responseJSON.message);
@@ -585,7 +587,7 @@ var LoginActions = function () {
 
 exports.default = _alt2.default.createActions(LoginActions);
 
-},{"../alt":21}],10:[function(require,module,exports){
+},{"../alt":24}],10:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -663,7 +665,7 @@ var LoginStore = function () {
 
 exports.default = _alt2.default.createStore(LoginStore);
 
-},{"../alt":21,"./LoginActions":9}],11:[function(require,module,exports){
+},{"../alt":24,"./LoginActions":9}],11:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -937,7 +939,7 @@ var NavbarActions = function () {
 
 exports.default = _alt2.default.createActions(NavbarActions);
 
-},{"../alt":21,"underscore":"underscore"}],13:[function(require,module,exports){
+},{"../alt":24,"underscore":"underscore"}],13:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1014,7 +1016,7 @@ var NavbarStore = function () {
 
 exports.default = _alt2.default.createStore(NavbarStore);
 
-},{"../alt":21,"./NavbarActions":12}],14:[function(require,module,exports){
+},{"../alt":24,"./NavbarActions":12}],14:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1082,6 +1084,246 @@ var NotFoundPage = function (_React$Component) {
 exports.default = NotFoundPage;
 
 },{"react":"react","react-router":"react-router"}],15:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _react = require('react');
+
+var _react2 = _interopRequireDefault(_react);
+
+var _ProfileStore = require('./ProfileStore');
+
+var _ProfileStore2 = _interopRequireDefault(_ProfileStore);
+
+var _ProfileActions = require('./ProfileActions');
+
+var _ProfileActions2 = _interopRequireDefault(_ProfileActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+var Profile = function (_React$Component) {
+  _inherits(Profile, _React$Component);
+
+  function Profile(props) {
+    _classCallCheck(this, Profile);
+
+    var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
+
+    _this.onChange = _this.onChange.bind(_this);
+    return _this;
+  }
+
+  _createClass(Profile, [{
+    key: 'componentDidMount',
+    value: function componentDidMount() {
+      _ProfileStore2.default.listen(this.onChange);
+      _ProfileActions2.default.getProfile();
+
+      $('.magnific-popup').magnificPopup({
+        type: 'image',
+        mainClass: 'mfp-zoom-in',
+        closeOnContentClick: true,
+        midClick: true,
+        zoom: {
+          enabled: true,
+          duration: 300
+        }
+      });
+    }
+  }, {
+    key: 'componentWillUnmount',
+    value: function componentWillUnmount() {
+      _ProfileStore2.default.unlisten(this.onChange);
+      $(document.body).removeClass();
+    }
+  }, {
+    key: 'componentDidUpdate',
+    value: function componentDidUpdate(prevProps) {
+      if (prevProps.params.id !== this.props.params.id) {
+        _ProfileActions2.default.getProfile();
+      }
+    }
+  }, {
+    key: 'onChange',
+    value: function onChange(state) {
+      this.setState(state);
+    }
+    //          <a ref='magnificPopup' className='magnific-popup' href={'https://image.eveonline.com/Character/' + this.state.characterId + '_1024.jpg'}>
+    // </a>
+
+    /*<div className='profile-img'>
+      <img className='media-object' src={'/api/profilepicture/'} />
+    </div>
+    <div className='profile-info clearfix'>
+      <h2><strong>{this.state.name}</strong></h2>
+      <h4 className='lead'>Race: <strong>{this.state.race}</strong></h4>
+      <h4 className='lead'>Bloodline: <strong>{this.state.bloodline}</strong></h4>
+      <h4 className='lead'>Gender: <strong>{this.state.gender}</strong></h4>
+      <button className='btn btn-transparent'
+              onClick={ProfileActions.report.bind(this, this.state._id)}
+              disabled={this.state.isReported}>
+        {this.state.isReported ? 'Reported' : 'Report Profile'}
+      </button>
+    </div>
+    <div className='profile-stats clearfix'>
+      <ul>
+        <li><span className='stats-number'>{this.state.winLossRatio}</span>Winning Percentage</li>
+        <li><span className='stats-number'>{this.state.wins}</span> Wins</li>
+        <li><span className='stats-number'>{this.state.losses}</span> Losses</li>
+      </ul>
+    </div>*/
+
+  }, {
+    key: 'render',
+    value: function render() {
+      return _react2.default.createElement(
+        'div',
+        { className: 'container' },
+        _react2.default.createElement(
+          'p',
+          null,
+          'test'
+        )
+      );
+    }
+  }]);
+
+  return Profile;
+}(_react2.default.Component);
+
+exports.default = Profile;
+
+},{"./ProfileActions":16,"./ProfileStore":17,"react":"react"}],16:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProfileActions = function () {
+  function ProfileActions() {
+    _classCallCheck(this, ProfileActions);
+
+    this.generateActions('reportSuccess', 'reportFail', 'getProfileSuccess', 'getProfileFail');
+  }
+
+  _createClass(ProfileActions, [{
+    key: 'getProfile',
+    value: function getProfile() {
+      var _this = this;
+
+      $.ajax({ url: '/api/profile' }).done(function (data) {
+        console.log(data);
+        _this.actions.getProfileSuccess(data);
+      }).fail(function (jqXhr) {
+        _this.actions.getProfileFail(jqXhr);
+      });
+    }
+  }]);
+
+  return ProfileActions;
+}();
+
+exports.default = _alt2.default.createActions(ProfileActions);
+
+},{"../alt":24}],17:[function(require,module,exports){
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+var _underscore = require('underscore');
+
+var _alt = require('../alt');
+
+var _alt2 = _interopRequireDefault(_alt);
+
+var _ProfileActions = require('./ProfileActions');
+
+var _ProfileActions2 = _interopRequireDefault(_ProfileActions);
+
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var ProfileStore = function () {
+  function ProfileStore() {
+    _classCallCheck(this, ProfileStore);
+
+    this.bindActions(_ProfileActions2.default);
+    this._id = 0;
+    this.name = 'TBD';
+    this.race = 'TBD';
+    this.bloodline = 'TBD';
+    this.gender = 'TBD';
+    this.wins = 0;
+    this.losses = 0;
+    this.winLossRatio = 0;
+    this.isReported = false;
+  }
+
+  _createClass(ProfileStore, [{
+    key: 'onGetProfileSuccess',
+    value: function onGetProfileSuccess(data) {
+      (0, _underscore.assign)(this, data);
+      $(document.body).attr('class', 'profile ' + this.race.toLowerCase());
+      var localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
+      var reports = localData.reports || [];
+      this.isReported = (0, _underscore.contains)(reports, this._id);
+      this.winLossRatio = (this.wins / (this.wins + this.losses) * 100 || 0).toFixed(1);
+    }
+  }, {
+    key: 'onGetProfileFail',
+    value: function onGetProfileFail(jqXhr) {
+      toastr.error(jqXhr.responseJSON.message);
+    }
+  }, {
+    key: 'onReportSuccess',
+    value: function onReportSuccess() {
+      this.isReported = true;
+      var localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
+      localData.reports = localData.reports || [];
+      localData.reports.push(this._id);
+      localStorage.setItem('NEF', JSON.stringify(localData));
+      toastr.warning('Profile has been reported.');
+    }
+  }, {
+    key: 'onReportFail',
+    value: function onReportFail(jqXhr) {
+      toastr.error(jqXhr.responseJSON.message);
+    }
+  }]);
+
+  return ProfileStore;
+}();
+
+exports.default = _alt2.default.createStore(ProfileStore);
+
+},{"../alt":24,"./ProfileActions":16,"underscore":"underscore"}],18:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1251,7 +1493,7 @@ var Signup = function (_React$Component) {
 
 exports.default = Signup;
 
-},{"./SignupActions":16,"./SignupStore":17,"react":"react","react-router":"react-router"}],16:[function(require,module,exports){
+},{"./SignupActions":19,"./SignupStore":20,"react":"react","react-router":"react-router"}],19:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1272,7 +1514,7 @@ var SignupActions = function () {
   function SignupActions() {
     _classCallCheck(this, SignupActions);
 
-    this.generateActions('signupSuccess', 'signupFail', 'updateDisplayName', 'updatePassword', 'updateEmail', 'invalidDisplayName', 'invalidPassword', 'invalidEmail');
+    this.generateActions('signupSuccess', 'signupFail', 'updateDisplayName', 'updatePassword', 'updateEmail', 'invalidDisplayName', 'invalidPassword', 'invalidEmail', 'invalidSignup');
   }
 
   _createClass(SignupActions, [{
@@ -1300,7 +1542,7 @@ var SignupActions = function () {
 
 exports.default = _alt2.default.createActions(SignupActions);
 
-},{"../alt":21}],17:[function(require,module,exports){
+},{"../alt":24}],20:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1401,6 +1643,11 @@ var SignupStore = function () {
       this.passwordValidationState = 'has-error';
       this.helpBlock = 'Please enter a password.';
     }
+  }, {
+    key: 'onInvalidSignup',
+    value: function onInvalidSignup() {
+      this.helpBlock = 'Ensure each field is filled out';
+    }
   }]);
 
   return SignupStore;
@@ -1408,7 +1655,7 @@ var SignupStore = function () {
 
 exports.default = _alt2.default.createStore(SignupStore);
 
-},{"../alt":21,"./SignupActions":16}],18:[function(require,module,exports){
+},{"../alt":24,"./SignupActions":19}],21:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1574,7 +1821,7 @@ var UserList = function (_React$Component) {
 
 exports.default = UserList;
 
-},{"./UserListActions":19,"./UserListStore":20,"react":"react","react-router":"react-router","underscore":"underscore"}],19:[function(require,module,exports){
+},{"./UserListActions":22,"./UserListStore":23,"react":"react","react-router":"react-router","underscore":"underscore"}],22:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1618,7 +1865,7 @@ var UserListActions = function () {
 
 exports.default = _alt2.default.createActions(UserListActions);
 
-},{"../alt":21}],20:[function(require,module,exports){
+},{"../alt":24}],23:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1664,7 +1911,7 @@ var UserListStore = function () {
 
 exports.default = _alt2.default.createStore(UserListStore);
 
-},{"../alt":21,"./UserListActions":19}],21:[function(require,module,exports){
+},{"../alt":24,"./UserListActions":22}],24:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1679,7 +1926,7 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 exports.default = new _alt2.default();
 
-},{"alt":"alt"}],22:[function(require,module,exports){
+},{"alt":"alt"}],25:[function(require,module,exports){
 'use strict';
 
 var _react = require('react');
@@ -1716,7 +1963,7 @@ _reactDom2.default.render(_react2.default.createElement(
   _routes2.default
 ), document.getElementById('app'));
 
-},{"./Navbar/Navbar":11,"./routes":23,"history/lib/createBrowserHistory":32,"react":"react","react-dom":"react-dom","react-router":"react-router"}],23:[function(require,module,exports){
+},{"./Navbar/Navbar":11,"./routes":26,"history/lib/createBrowserHistory":35,"react":"react","react-dom":"react-dom","react-router":"react-router"}],26:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1749,6 +1996,10 @@ var _Login = require('./Login/Login');
 
 var _Login2 = _interopRequireDefault(_Login);
 
+var _Profile = require('./Profile/Profile');
+
+var _Profile2 = _interopRequireDefault(_Profile);
+
 var _NotFoundPage = require('./NotFoundPage/NotFoundPage');
 
 var _NotFoundPage2 = _interopRequireDefault(_NotFoundPage);
@@ -1763,13 +2014,14 @@ exports.default = _react2.default.createElement(
     { component: _App2.default },
     _react2.default.createElement(_reactRouter.Route, { path: '/', component: _Home2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/users', component: _UserList2.default }),
+    _react2.default.createElement(_reactRouter.Route, { path: '/profile', component: _Profile2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/signup', component: _Signup2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '/login', component: _Login2.default }),
     _react2.default.createElement(_reactRouter.Route, { path: '*', component: _NotFoundPage2.default })
   )
 );
 
-},{"./App/App":1,"./Home/Home":5,"./Login/Login":8,"./NotFoundPage/NotFoundPage":14,"./Signup/Signup":15,"./UserList/UserList":18,"react":"react","react-router":"react-router"}],24:[function(require,module,exports){
+},{"./App/App":1,"./Home/Home":5,"./Login/Login":8,"./NotFoundPage/NotFoundPage":14,"./Profile/Profile":15,"./Signup/Signup":18,"./UserList/UserList":21,"react":"react","react-router":"react-router"}],27:[function(require,module,exports){
 var pSlice = Array.prototype.slice;
 var objectKeys = require('./lib/keys.js');
 var isArguments = require('./lib/is_arguments.js');
@@ -1865,7 +2117,7 @@ function objEquiv(a, b, opts) {
   return typeof a === typeof b;
 }
 
-},{"./lib/is_arguments.js":25,"./lib/keys.js":26}],25:[function(require,module,exports){
+},{"./lib/is_arguments.js":28,"./lib/keys.js":29}],28:[function(require,module,exports){
 var supportsArgumentsClass = (function(){
   return Object.prototype.toString.call(arguments)
 })() == '[object Arguments]';
@@ -1887,7 +2139,7 @@ function unsupported(object){
     false;
 };
 
-},{}],26:[function(require,module,exports){
+},{}],29:[function(require,module,exports){
 exports = module.exports = typeof Object.keys === 'function'
   ? Object.keys : shim;
 
@@ -1898,7 +2150,7 @@ function shim (obj) {
   return keys;
 }
 
-},{}],27:[function(require,module,exports){
+},{}],30:[function(require,module,exports){
 /**
  * Indicates that navigation was caused by a call to history.push.
  */
@@ -1930,7 +2182,7 @@ exports['default'] = {
   REPLACE: REPLACE,
   POP: POP
 };
-},{}],28:[function(require,module,exports){
+},{}],31:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -1957,7 +2209,7 @@ function loopAsync(turns, work, callback) {
 
   next();
 }
-},{}],29:[function(require,module,exports){
+},{}],32:[function(require,module,exports){
 (function (process){
 /*eslint-disable no-empty */
 'use strict';
@@ -2029,7 +2281,7 @@ function readState(key) {
 }
 }).call(this,require('_process'))
 
-},{"_process":41,"warning":42}],30:[function(require,module,exports){
+},{"_process":44,"warning":45}],33:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
@@ -2110,13 +2362,13 @@ function supportsGoWithoutReloadUsingHash() {
   var ua = navigator.userAgent;
   return ua.indexOf('Firefox') === -1;
 }
-},{}],31:[function(require,module,exports){
+},{}],34:[function(require,module,exports){
 'use strict';
 
 exports.__esModule = true;
 var canUseDOM = !!(typeof window !== 'undefined' && window.document && window.document.createElement);
 exports.canUseDOM = canUseDOM;
-},{}],32:[function(require,module,exports){
+},{}],35:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2298,7 +2550,7 @@ exports['default'] = createBrowserHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./Actions":27,"./DOMStateStorage":29,"./DOMUtils":30,"./ExecutionEnvironment":31,"./createDOMHistory":33,"./parsePath":38,"_process":41,"invariant":40}],33:[function(require,module,exports){
+},{"./Actions":30,"./DOMStateStorage":32,"./DOMUtils":33,"./ExecutionEnvironment":34,"./createDOMHistory":36,"./parsePath":41,"_process":44,"invariant":43}],36:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2342,7 +2594,7 @@ exports['default'] = createDOMHistory;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./DOMUtils":30,"./ExecutionEnvironment":31,"./createHistory":34,"_process":41,"invariant":40}],34:[function(require,module,exports){
+},{"./DOMUtils":33,"./ExecutionEnvironment":34,"./createHistory":37,"_process":44,"invariant":43}],37:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -2634,7 +2886,7 @@ function createHistory() {
 
 exports['default'] = createHistory;
 module.exports = exports['default'];
-},{"./Actions":27,"./AsyncUtils":28,"./createLocation":35,"./deprecate":36,"./parsePath":38,"./runTransitionHook":39,"deep-equal":24}],35:[function(require,module,exports){
+},{"./Actions":30,"./AsyncUtils":31,"./createLocation":38,"./deprecate":39,"./parsePath":41,"./runTransitionHook":42,"deep-equal":27}],38:[function(require,module,exports){
 //import warning from 'warning'
 'use strict';
 
@@ -2689,7 +2941,7 @@ function createLocation() {
 
 exports['default'] = createLocation;
 module.exports = exports['default'];
-},{"./Actions":27,"./parsePath":38}],36:[function(require,module,exports){
+},{"./Actions":30,"./parsePath":41}],39:[function(require,module,exports){
 //import warning from 'warning'
 
 "use strict";
@@ -2705,7 +2957,7 @@ function deprecate(fn) {
 
 exports["default"] = deprecate;
 module.exports = exports["default"];
-},{}],37:[function(require,module,exports){
+},{}],40:[function(require,module,exports){
 "use strict";
 
 exports.__esModule = true;
@@ -2719,7 +2971,7 @@ function extractPath(string) {
 
 exports["default"] = extractPath;
 module.exports = exports["default"];
-},{}],38:[function(require,module,exports){
+},{}],41:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2767,7 +3019,7 @@ exports['default'] = parsePath;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"./extractPath":37,"_process":41,"warning":42}],39:[function(require,module,exports){
+},{"./extractPath":40,"_process":44,"warning":45}],42:[function(require,module,exports){
 (function (process){
 'use strict';
 
@@ -2795,7 +3047,7 @@ exports['default'] = runTransitionHook;
 module.exports = exports['default'];
 }).call(this,require('_process'))
 
-},{"_process":41,"warning":42}],40:[function(require,module,exports){
+},{"_process":44,"warning":45}],43:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2013-2015, Facebook, Inc.
@@ -2851,7 +3103,7 @@ module.exports = invariant;
 
 }).call(this,require('_process'))
 
-},{"_process":41}],41:[function(require,module,exports){
+},{"_process":44}],44:[function(require,module,exports){
 // shim for using process in browser
 var process = module.exports = {};
 
@@ -3033,7 +3285,7 @@ process.chdir = function (dir) {
 };
 process.umask = function() { return 0; };
 
-},{}],42:[function(require,module,exports){
+},{}],45:[function(require,module,exports){
 (function (process){
 /**
  * Copyright 2014-2015, Facebook, Inc.
@@ -3098,6 +3350,6 @@ module.exports = warning;
 
 }).call(this,require('_process'))
 
-},{"_process":41}]},{},[22])
+},{"_process":44}]},{},[25])
 
 //# sourceMappingURL=bundle.js.map

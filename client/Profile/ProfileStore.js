@@ -1,11 +1,11 @@
 import {assign, contains} from 'underscore';
 import alt from '../alt';
-import CharacterActions from '../actions/CharacterActions';
+import ProfileActions from './ProfileActions';
 
-class CharacterStore {
+class ProfileStore {
   constructor() {
-    this.bindActions(CharacterActions);
-    this.characterId = 0;
+    this.bindActions(ProfileActions);
+    this._id = 0;
     this.name = 'TBD';
     this.race = 'TBD';
     this.bloodline = 'TBD';
@@ -16,16 +16,16 @@ class CharacterStore {
     this.isReported = false;
   }
 
-  onGetCharacterSuccess(data) {
+  onGetProfileSuccess(data) {
     assign(this, data);
     $(document.body).attr('class', 'profile ' + this.race.toLowerCase());
     let localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
     let reports = localData.reports || [];
-    this.isReported = contains(reports, this.characterId);
+    this.isReported = contains(reports, this._id);
     this.winLossRatio = ((this.wins / (this.wins + this.losses) * 100) || 0).toFixed(1);
   }
 
-  onGetCharacterFail(jqXhr) {
+  onGetProfileFail(jqXhr) {
     toastr.error(jqXhr.responseJSON.message);
   }
 
@@ -33,9 +33,9 @@ class CharacterStore {
     this.isReported = true;
     let localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
     localData.reports = localData.reports || [];
-    localData.reports.push(this.characterId);
+    localData.reports.push(this._id);
     localStorage.setItem('NEF', JSON.stringify(localData));
-    toastr.warning('Character has been reported.');
+    toastr.warning('Profile has been reported.');
   }
 
   onReportFail(jqXhr) {
@@ -43,4 +43,4 @@ class CharacterStore {
   }
 }
 
-export default alt.createStore(CharacterStore);
+export default alt.createStore(ProfileStore);

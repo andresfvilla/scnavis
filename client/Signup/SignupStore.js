@@ -67,6 +67,10 @@ class SignupStore {
     this.passwordValidationState = 'has-error';
     this.helpBlock = 'Please enter a password.';
   }
+
+  onInvalidSignup() {
+    this.helpBlock = 'Ensure each field is filled out'
+  }
 }
 
 export default alt.createStore(SignupStore);

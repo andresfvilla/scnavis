@@ -33,6 +33,7 @@ class Login extends React.Component {
     }
 
     if (email && password) {
+      console.log(email + " password:" +  password);
       LoginActions.login(email, password);
     }
   }

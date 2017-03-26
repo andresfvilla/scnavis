@@ -11,6 +11,7 @@ class SignupActions {
       'invalidDisplayName',
       'invalidPassword',
       'invalidEmail',
+      'invalidSignup',
     );
   }
 
@@ -22,7 +23,7 @@ class SignupActions {
     })
       .done((data) => {
         console.log("success signup")
-        window.location.replace("/"); 
+        window.location.replace("/");
         this.actions.signupSuccess(data.message);
       })
       .fail((jqXhr) => {
