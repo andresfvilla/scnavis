@@ -714,6 +714,7 @@ var Navbar = function (_React$Component) {
     value: function componentDidMount() {
       _NavbarStore2.default.listen(this.onChange);
       _NavbarActions2.default.getCharacterCount();
+      _NavbarActions2.default.getUser();
 
       var socket = io.connect();
 
@@ -755,6 +756,57 @@ var Navbar = function (_React$Component) {
           history: this.props.history
         });
       }
+    }
+  }, {
+    key: 'loggedIn',
+    value: function loggedIn(props) {
+      var isLoggedIn = this.state.isLoggedIn;
+      if (isLoggedIn) {
+        return _react2.default.createElement(
+          'ul',
+          { className: 'nav navbar-nav', style: { "float": "right" } },
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/profile' },
+              this.state.displayName
+            )
+          ),
+          _react2.default.createElement(
+            'li',
+            null,
+            _react2.default.createElement(
+              _reactRouter.Link,
+              { to: '/api/logout' },
+              'Logout'
+            )
+          )
+        );
+      }
+      return _react2.default.createElement(
+        'ul',
+        { className: 'nav navbar-nav', style: { "float": "right" } },
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/login' },
+            'Login'
+          )
+        ),
+        _react2.default.createElement(
+          'li',
+          null,
+          _react2.default.createElement(
+            _reactRouter.Link,
+            { to: '/signup' },
+            'Signup'
+          )
+        )
+      );
     }
   }, {
     key: 'render',
@@ -845,18 +897,14 @@ var Navbar = function (_React$Component) {
                   { to: '/users' },
                   'Users'
                 )
-              )
-            ),
-            _react2.default.createElement(
-              'ul',
-              { className: 'nav navbar-nav', style: { "float": "right" } },
+              ),
               _react2.default.createElement(
                 'li',
                 null,
                 _react2.default.createElement(
                   _reactRouter.Link,
-                  { to: '/login' },
-                  'Login'
+                  { to: '/teams' },
+                  'Teams'
                 )
               ),
               _react2.default.createElement(
@@ -864,11 +912,12 @@ var Navbar = function (_React$Component) {
                 null,
                 _react2.default.createElement(
                   _reactRouter.Link,
-                  { to: '/signup' },
-                  'Signup'
+                  { to: '/tournaments' },
+                  'Tournaments'
                 )
               )
-            )
+            ),
+            this.loggedIn()
           )
         )
       );
@@ -903,7 +952,7 @@ var NavbarActions = function () {
   function NavbarActions() {
     _classCallCheck(this, NavbarActions);
 
-    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getCharacterCountSuccess', 'getCharacterCountFail', 'findCharacterSuccess', 'findCharacterFail');
+    this.generateActions('updateOnlineUsers', 'updateAjaxAnimation', 'updateSearchQuery', 'getCharacterCountSuccess', 'getCharacterCountFail', 'getUserSuccess', 'getUserFail', 'findCharacterSuccess', 'findCharacterFail');
   }
 
   _createClass(NavbarActions, [{
@@ -930,6 +979,17 @@ var NavbarActions = function () {
         _this2.actions.getCharacterCountSuccess(data);
       }).fail(function (jqXhr) {
         _this2.actions.getCharacterCountFail(jqXhr);
+      });
+    }
+  }, {
+    key: 'getUser',
+    value: function getUser() {
+      var _this3 = this;
+
+      $.ajax({ url: '/api/profile' }).done(function (data) {
+        _this3.actions.getUserSuccess(data);
+      }).fail(function (jqXhr) {
+        _this3.actions.getUserFail(jqXhr);
       });
     }
   }]);
@@ -969,6 +1029,8 @@ var NavbarStore = function () {
     this.onlineUsers = 0;
     this.searchQuery = '';
     this.ajaxAnimationClass = '';
+    this.displayName = '';
+    this.isLoggedIn = false;
   }
 
   _createClass(NavbarStore, [{
@@ -1007,6 +1069,19 @@ var NavbarStore = function () {
   }, {
     key: 'onGetCharacterCountFail',
     value: function onGetCharacterCountFail(jqXhr) {
+      toastr.error(jqXhr.responseJSON.message);
+    }
+  }, {
+    key: 'onGetUserSuccess',
+    value: function onGetUserSuccess(data) {
+      this.isLoggedIn = true;
+      //console.log(data.local);
+      this.displayName = data.local.displayName;
+    }
+  }, {
+    key: 'onGetUserFail',
+    value: function onGetUserFail(jqXhr) {
+      console.log("get user request failed");
       toastr.error(jqXhr.responseJSON.message);
     }
   }]);
@@ -1096,6 +1171,10 @@ var _react = require('react');
 
 var _react2 = _interopRequireDefault(_react);
 
+var _reactRouter = require('react-router');
+
+var _underscore = require('underscore');
+
 var _ProfileStore = require('./ProfileStore');
 
 var _ProfileStore2 = _interopRequireDefault(_ProfileStore);
@@ -1120,6 +1199,7 @@ var Profile = function (_React$Component) {
 
     var _this = _possibleConstructorReturn(this, (Profile.__proto__ || Object.getPrototypeOf(Profile)).call(this, props));
 
+    _this.state = _ProfileStore2.default.getState();
     _this.onChange = _this.onChange.bind(_this);
     return _this;
   }
@@ -1159,31 +1239,6 @@ var Profile = function (_React$Component) {
     value: function onChange(state) {
       this.setState(state);
     }
-    //          <a ref='magnificPopup' className='magnific-popup' href={'https://image.eveonline.com/Character/' + this.state.characterId + '_1024.jpg'}>
-    // </a>
-
-    /*<div className='profile-img'>
-      <img className='media-object' src={'/api/profilepicture/'} />
-    </div>
-    <div className='profile-info clearfix'>
-      <h2><strong>{this.state.name}</strong></h2>
-      <h4 className='lead'>Race: <strong>{this.state.race}</strong></h4>
-      <h4 className='lead'>Bloodline: <strong>{this.state.bloodline}</strong></h4>
-      <h4 className='lead'>Gender: <strong>{this.state.gender}</strong></h4>
-      <button className='btn btn-transparent'
-              onClick={ProfileActions.report.bind(this, this.state._id)}
-              disabled={this.state.isReported}>
-        {this.state.isReported ? 'Reported' : 'Report Profile'}
-      </button>
-    </div>
-    <div className='profile-stats clearfix'>
-      <ul>
-        <li><span className='stats-number'>{this.state.winLossRatio}</span>Winning Percentage</li>
-        <li><span className='stats-number'>{this.state.wins}</span> Wins</li>
-        <li><span className='stats-number'>{this.state.losses}</span> Losses</li>
-      </ul>
-    </div>*/
-
   }, {
     key: 'render',
     value: function render() {
@@ -1191,9 +1246,104 @@ var Profile = function (_React$Component) {
         'div',
         { className: 'container' },
         _react2.default.createElement(
-          'p',
-          null,
-          'test'
+          'div',
+          { className: 'profile-img' },
+          _react2.default.createElement(
+            'a',
+            { ref: 'magnificPopup', className: 'magnific-popup', href: 'https://image.eveonline.com/Character/' + this.state.characterId + '_1024.jpg' },
+            _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' + this.state.profilePicture })
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'profile-info clearfix' },
+          _react2.default.createElement(
+            'h2',
+            null,
+            _react2.default.createElement(
+              'strong',
+              null,
+              this.state.displayName
+            )
+          ),
+          _react2.default.createElement(
+            'h4',
+            { className: 'lead' },
+            'Organizations: ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              this.state.organizations
+            )
+          ),
+          _react2.default.createElement(
+            'h4',
+            { className: 'lead' },
+            'Teams: ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              this.state.teams
+            )
+          ),
+          _react2.default.createElement(
+            'h4',
+            { className: 'lead' },
+            'Kills: ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              this.state.kills
+            )
+          ),
+          _react2.default.createElement(
+            'h4',
+            { className: 'lead' },
+            'Deaths: ',
+            _react2.default.createElement(
+              'strong',
+              null,
+              this.state.deaths
+            )
+          )
+        ),
+        _react2.default.createElement(
+          'div',
+          { className: 'profile-stats clearfix' },
+          _react2.default.createElement(
+            'ul',
+            null,
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'span',
+                { className: 'stats-number' },
+                this.state.winLossRatio
+              ),
+              'Winning Percentage'
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'span',
+                { className: 'stats-number' },
+                this.state.wins
+              ),
+              ' Wins'
+            ),
+            _react2.default.createElement(
+              'li',
+              null,
+              _react2.default.createElement(
+                'span',
+                { className: 'stats-number' },
+                this.state.losses
+              ),
+              ' Losses'
+            )
+          )
         )
       );
     }
@@ -1204,7 +1354,7 @@ var Profile = function (_React$Component) {
 
 exports.default = Profile;
 
-},{"./ProfileActions":16,"./ProfileStore":17,"react":"react"}],16:[function(require,module,exports){
+},{"./ProfileActions":16,"./ProfileStore":17,"react":"react","react-router":"react-router","underscore":"underscore"}],16:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -1225,7 +1375,7 @@ var ProfileActions = function () {
   function ProfileActions() {
     _classCallCheck(this, ProfileActions);
 
-    this.generateActions('reportSuccess', 'reportFail', 'getProfileSuccess', 'getProfileFail');
+    this.generateActions('getProfileSuccess', 'getProfileFail');
   }
 
   _createClass(ProfileActions, [{
@@ -1234,9 +1384,9 @@ var ProfileActions = function () {
       var _this = this;
 
       $.ajax({ url: '/api/profile' }).done(function (data) {
-        console.log(data);
         _this.actions.getProfileSuccess(data);
       }).fail(function (jqXhr) {
+        window.location.replace("/");
         _this.actions.getProfileFail(jqXhr);
       });
     }
@@ -1275,45 +1425,29 @@ var ProfileStore = function () {
     _classCallCheck(this, ProfileStore);
 
     this.bindActions(_ProfileActions2.default);
-    this._id = 0;
-    this.name = 'TBD';
-    this.race = 'TBD';
-    this.bloodline = 'TBD';
-    this.gender = 'TBD';
-    this.wins = 0;
+    this.id = 0;
+    this.displayName = 'TBD';
+    this.deaths = 'TBD';
+    this.kills = 'TBD';
     this.losses = 0;
+    this.organization = [];
     this.winLossRatio = 0;
-    this.isReported = false;
+    this.profilePicture = '/api/profilePicture';
   }
 
   _createClass(ProfileStore, [{
     key: 'onGetProfileSuccess',
     value: function onGetProfileSuccess(data) {
-      (0, _underscore.assign)(this, data);
-      $(document.body).attr('class', 'profile ' + this.race.toLowerCase());
-      var localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
-      var reports = localData.reports || [];
-      this.isReported = (0, _underscore.contains)(reports, this._id);
-      this.winLossRatio = (this.wins / (this.wins + this.losses) * 100 || 0).toFixed(1);
+      (0, _underscore.assign)(this, data.local);
+      this.id = data._id;
+      // let localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
+      // let reports = localData.reports || [];
+      // this.isReported = contains(reports, this._id);
+      // this.winLossRatio = ((this.wins / (this.wins + this.losses) * 100) || 0).toFixed(1);
     }
   }, {
     key: 'onGetProfileFail',
     value: function onGetProfileFail(jqXhr) {
-      toastr.error(jqXhr.responseJSON.message);
-    }
-  }, {
-    key: 'onReportSuccess',
-    value: function onReportSuccess() {
-      this.isReported = true;
-      var localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
-      localData.reports = localData.reports || [];
-      localData.reports.push(this._id);
-      localStorage.setItem('NEF', JSON.stringify(localData));
-      toastr.warning('Profile has been reported.');
-    }
-  }, {
-    key: 'onReportFail',
-    value: function onReportFail(jqXhr) {
       toastr.error(jqXhr.responseJSON.message);
     }
   }]);
@@ -1745,7 +1879,7 @@ var UserList = function (_React$Component) {
               _react2.default.createElement(
                 _reactRouter.Link,
                 { to: '/users/' + user._id },
-                _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' })
+                _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' + user.local.profilePicture })
               )
             ),
             _react2.default.createElement(

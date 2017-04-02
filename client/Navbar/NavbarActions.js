@@ -9,6 +9,8 @@ class NavbarActions {
       'updateSearchQuery',
       'getCharacterCountSuccess',
       'getCharacterCountFail',
+      'getUserSuccess',
+      'getUserFail',
       'findCharacterSuccess',
       'findCharacterFail'
     );
@@ -35,6 +37,16 @@ class NavbarActions {
       })
       .fail((jqXhr) => {
         this.actions.getCharacterCountFail(jqXhr)
+      });
+  }
+
+  getUser() {
+    $.ajax({ url: '/api/profile' })
+      .done((data) => {
+        this.actions.getUserSuccess(data)
+      })
+      .fail((jqXhr) => {
+        this.actions.getUserFail(jqXhr)
       });
   }
 }

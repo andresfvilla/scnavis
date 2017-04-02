@@ -17,9 +17,9 @@ module.exports = function(app, passport) {
     });
 
 
-    app.get('/api/profilepicture', function(req, res) {
-      console.log("profilepicture")
-      res.sendFile(path.join(__dirname, '../../public/img/profiles', 'default_picture.png'));
+    app.get('/api/profilepicture/:image', function(req, res) {
+      console.log(req.params.image)
+      res.sendFile(path.join(__dirname, '../../public/img/profiles', req.params.image));
     });
 
     app.get('/api/users/:id', function(req, res) {
@@ -47,10 +47,16 @@ module.exports = function(app, passport) {
     // =====================================
     // we will want this protected so you have to be logged in to visit
     // we will use route middleware to verify this (the isLoggedIn function)
-    app.get('/api/profile', isLoggedIn, function(req, res) {
-        delete req.user.local.password;
-        console.log(req.user.local.password);
-        res.json(req.user)
+    app.get('/api/profile', function(req, res) {
+        if(req.isAuthenticated()){
+          console.log("is authenticated")
+          delete req.user.local.password;
+          console.log(req.user.local.password);
+          res.json(req.user)
+        } else {
+          console.log("not authenticated")
+          res.status(401);
+        }
     });
 
     // =====================================
@@ -58,8 +64,14 @@ module.exports = function(app, passport) {
     // =====================================
     app.get('/api/logout', function(req, res) {
       console.log(req)
-      req.session.destroy();
-      //req.logout();
+      req.logout();
+      res.json({"status": "success"})
+    });
+
+    app.get('/api/isLoggedIn', function(req, res) {
+      console.log(req)
+      req.logout();
+      res.json({"status": "success"})
     });
 
 };
@@ -71,5 +83,5 @@ function isLoggedIn(req, res, next) {
         return next();
 
     // if they aren't redirect them to the home page
-    res.redirect('/');
+    return false;
 }

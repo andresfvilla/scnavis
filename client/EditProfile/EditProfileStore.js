@@ -18,10 +18,6 @@ class ProfileStore {
   onGetProfileSuccess(data) {
     assign(this, data.local);
     this.id = data._id
-    // let localData = localStorage.getItem('NEF') ? JSON.parse(localStorage.getItem('NEF')) : {};
-    // let reports = localData.reports || [];
-    // this.isReported = contains(reports, this._id);
-    // this.winLossRatio = ((this.wins / (this.wins + this.losses) * 100) || 0).toFixed(1);
   }
 
   onGetProfileFail(jqXhr) {

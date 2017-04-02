@@ -13,6 +13,7 @@ class Navbar extends React.Component {
   componentDidMount() {
     NavbarStore.listen(this.onChange);
     NavbarActions.getCharacterCount();
+    NavbarActions.getUser();
 
     let socket = io.connect();
 
@@ -51,6 +52,20 @@ class Navbar extends React.Component {
         history: this.props.history
       });
     }
+  }
+
+  loggedIn(props) {
+    const isLoggedIn = this.state.isLoggedIn;
+    if (isLoggedIn) {
+      return (<ul className='nav navbar-nav' style={{"float": "right"}}>
+                <li><Link to='/profile'>{this.state.displayName}</Link></li>
+              <li><Link to='/api/logout'>Logout</Link></li>
+              </ul>);
+    }
+    return (<ul className='nav navbar-nav' style={{"float": "right"}}>
+              <li><Link to='/login'>Login</Link></li>
+              <li><Link to='/signup'>Signup</Link></li>
+          </ul>);
   }
 
   render() {
@@ -92,16 +107,16 @@ class Navbar extends React.Component {
           <ul className='nav navbar-nav'>
             <li><Link to='/'>Home</Link></li>
             <li><Link to='/users'>Users</Link></li>
+            <li><Link to='/teams'>Teams</Link></li>
+            <li><Link to='/tournaments'>Tournaments</Link></li>
           </ul>
-          <ul className='nav navbar-nav' style={{"float": "right"}}>
-            <li><Link to='/login'>Login</Link></li>
-            <li><Link to='/signup'>Signup</Link></li>
-          </ul>
+            {this.loggedIn()}
         </div>
         </div>
       </nav>
     );
   }
+
 }
 
 export default Navbar;

@@ -69,7 +69,7 @@ module.exports = function(passport) {
                 newUser.local.losses = 0;
                 newUser.local.kills = 0;
                 newUser.local.deaths = 0;
-                newUser.local.profilePicture = "../public/img/profile/" + "default_profile.png";
+                newUser.local.profilePicture = "default_profile.png";
 
 
                 // save the user

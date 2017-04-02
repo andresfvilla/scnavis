@@ -8,6 +8,8 @@ class NavbarStore {
     this.onlineUsers = 0;
     this.searchQuery = '';
     this.ajaxAnimationClass = '';
+    this.displayName = '';
+    this.isLoggedIn = false;
   }
 
   onFindCharacterSuccess(payload) {
@@ -38,6 +40,17 @@ class NavbarStore {
   }
 
   onGetCharacterCountFail(jqXhr) {
+    toastr.error(jqXhr.responseJSON.message);
+  }
+
+  onGetUserSuccess(data) {
+    this.isLoggedIn = true;
+    //console.log(data.local);
+    this.displayName = data.local.displayName;
+  }
+
+  onGetUserFail(jqXhr) {
+    console.log("get user request failed")
     toastr.error(jqXhr.responseJSON.message);
   }
 }
