@@ -1,11 +1,31 @@
 import alt from '../alt';
 
-class ProfileActions {
+class EditProfileActions {
   constructor() {
     this.generateActions(
       'getProfileSuccess',
-      'getProfileFail'
+      'getProfileFail',
+      'updateDisplayName',
+      'updateOldPassword',
+      'updateNewPassword',
+      'updateEmail',
+      'loginSuccess',
+      'loginFail'
     );
+  }
+
+  updateProfile(profileData) {
+    $.ajax({
+      type: 'PUT',
+      url: '/api/profile/' + profileData.id,
+      data: profileData
+    })
+      .done((data) => {
+        this.actions.loginSuccess(data.message);
+      })
+      .fail((jqXhr) => {
+        this.actions.loginFail(jqXhr.responseJSON.message);
+      });
   }
 
   getProfile() {
@@ -14,10 +34,9 @@ class ProfileActions {
         this.actions.getProfileSuccess(data);
       })
       .fail((jqXhr) => {
-        window.location.replace("/");
         this.actions.getProfileFail(jqXhr);
       })
   }
 }
 
-export default alt.createActions(ProfileActions);
+export default alt.createActions(EditProfileActions);

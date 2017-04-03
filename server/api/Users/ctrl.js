@@ -51,12 +51,35 @@ module.exports = function(app, passport) {
         if(req.isAuthenticated()){
           console.log("is authenticated")
           delete req.user.local.password;
-          console.log(req.user.local.password);
           res.json(req.user)
         } else {
           console.log("not authenticated")
           res.status(401);
+          return next(err);
         }
+    });
+
+    app.put('/api/profile/:id', function(req, res) {
+      if(req.isAuthenticated()){
+        console.log(req.body)
+      } else {
+        res.status(401);
+        return next(err);
+      }
+
+      User.findOne({
+            _id: req.body.id
+        }, function(err, user) {
+            console.log('this is the user')
+            console.log(user)
+            for (var key in req.body) {
+              if(key != 'id'){
+                console.log()
+                user.local[key] = req.body[key];
+              }
+            }
+            user.save()
+        });
     });
 
     // =====================================
@@ -75,6 +98,7 @@ module.exports = function(app, passport) {
     });
 
 };
+
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
 

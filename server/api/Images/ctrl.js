@@ -24,8 +24,8 @@ module.exports = function(app) {
 
   var upload = multer({ storage: storage })
 
-  app.post('/profile', upload.single('avatar'), function (req, res, next) {
-  })
+  // app.post('/profile', upload.single('avatar'), function (req, res, next) {
+  // })
 
   app.get('/api/images/:shortcode', function(req, res) {
       app.api.images.model.findOne({

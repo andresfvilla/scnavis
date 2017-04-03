@@ -42,8 +42,9 @@ class Profile extends React.Component {
     this.setState(state);
   }
 
-  editProfile(state){
+  editProfile(props){
     console.log("testing edit profile button")
+    window.location = '/edit-profile';
   }
 
   render() {
@@ -55,7 +56,7 @@ class Profile extends React.Component {
           </a>
         </div>
         <div className='profile-info clearfix'>
-          <button onClick={this.editProfile()}>Edit Profile</button>
+          <button onClick={this.editProfile.bind()}>Edit Profile</button>
           <h2><strong>{this.state.displayName}</strong></h2>
           <h4 className='lead'>Organizations: <strong>{this.state.organizations}</strong></h4>
           <h4 className='lead'>Teams: <strong>{this.state.teams}</strong></h4>

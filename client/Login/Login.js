@@ -41,8 +41,8 @@ class Login extends React.Component {
   render() {
     return (
       <div className='container'>
-        <div className='row flipInX animated'>
-          <div className='col-sm-8'>
+        <div className='row'>
+          <div className='col-sm-8 col-md-offset-2'>
             <div className='panel panel-default'>
               <div className='panel-heading'>Login</div>
               <div className='panel-body'>
@@ -59,7 +59,7 @@ class Login extends React.Component {
                            onChange={LoginActions.updatePassword} autoFocus/>
                     <span className='help-block'>{this.state.helpBlock}</span>
                   </div>
-                  <button type='submit' className='btn btn-primary'>Submit</button>
+                  <button type='submit' className='btn btn-primary align-right'>Submit</button>
                 </form>
               </div>
             </div>

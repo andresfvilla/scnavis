@@ -50,8 +50,7 @@ class NavbarStore {
   }
 
   onGetUserFail(jqXhr) {
-    console.log("get user request failed")
-    toastr.error(jqXhr.responseJSON.message);
+    console.log("get user request failed");
   }
 }
 
