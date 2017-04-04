@@ -1,7 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
 import Dropzone from 'react-dropzone';
-import request from 'superagent';
+import superagent from 'superagent';
 import {isEqual} from 'underscore';
 import EditProfileStore from './EditProfileStore';
 import EditProfileActions from './EditProfileActions';
@@ -35,7 +35,6 @@ class EditProfile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-
     if (prevProps.params.id !== this.props.params.id) {
       EditProfileActions.getProfile();
     }
@@ -91,9 +90,23 @@ class EditProfile extends React.Component {
 
   onImageDrop(files){
     this.state.uploadedFile = files[0]
-    console.log(files)
     EditProfileActions.uploadImage(files[0]);
   }
+
+  handleFileUpload(files) {
+    // console.log(e)
+
+    // superagent.post('/api/image')
+    //   .attach('avatar', files[0])
+    //   .end((err, res) => {
+    //     if (err) console.log(err);
+    //   })
+
+    // const reader = new FileReader();
+    // const file = e.target.files[0];
+    // console.log(file);
+    EditProfileActions.uploadImage(files[0]);
+}
 
   render() {
       return (
@@ -110,11 +123,8 @@ class EditProfile extends React.Component {
                       </a>
                     </div>
                     <div className='FileUpload'>
-                      <Dropzone
-                        multiple={false}
-                        accept="image/*"
-                        onDrop={this.onImageDrop.bind(this)}>
-                        <p>Drop an image or click to select a file to upload.</p>
+                      <Dropzone onDrop={this.handleFileUpload}>
+                        <div>Try dropping a file here, or click to select a file to upload.</div>
                       </Dropzone>
                     </div>
                     <button type='submit' className='btn btn-primary'>Submit</button>

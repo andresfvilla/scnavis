@@ -62,7 +62,7 @@ class EditProfileStore {
 
   onUploadImageSuccess(data){
     console.log("testing")
-    EditProfileActions.updateProfile(data);
+    //EditProfileActions.updateProfile(data);
   }
 
   onUploadImageFail(jqXhr){

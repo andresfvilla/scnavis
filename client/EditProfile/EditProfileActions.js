@@ -1,4 +1,6 @@
 import alt from '../alt';
+import superagent from 'superagent';
+
 
 class EditProfileActions {
   constructor() {
@@ -17,16 +19,11 @@ class EditProfileActions {
   }
 
   uploadImage(file){
-    $.ajax({
-      type: 'POST',
-      url: '/api/image',
-      data: file.value
-    })
-      .done((data) => {
-        this.actions.uploadImageSuccess(data);
-      })
-      .fail((jqXhr) => {
-        this.actions.uploadImageFail(jqXhr.responseJSON.message);
+    superagent.post('/api/image')
+      .attach('avatar', file)
+      .end((err, res) => {
+        if (err) console.log(err);
+        console.log(res);
       });
   }
 

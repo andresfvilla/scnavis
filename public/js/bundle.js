@@ -134,7 +134,6 @@ var EditProfile = function (_React$Component) {
   }, {
     key: 'componentDidUpdate',
     value: function componentDidUpdate(prevProps) {
-
       if (prevProps.params.id !== this.props.params.id) {
         _EditProfileActions2.default.getProfile();
       }
@@ -195,7 +194,22 @@ var EditProfile = function (_React$Component) {
     key: 'onImageDrop',
     value: function onImageDrop(files) {
       this.state.uploadedFile = files[0];
-      console.log(files);
+      _EditProfileActions2.default.uploadImage(files[0]);
+    }
+  }, {
+    key: 'handleFileUpload',
+    value: function handleFileUpload(files) {
+      // console.log(e)
+
+      // superagent.post('/api/image')
+      //   .attach('avatar', files[0])
+      //   .end((err, res) => {
+      //     if (err) console.log(err);
+      //   })
+
+      // const reader = new FileReader();
+      // const file = e.target.files[0];
+      // console.log(file);
       _EditProfileActions2.default.uploadImage(files[0]);
     }
   }, {
@@ -238,14 +252,11 @@ var EditProfile = function (_React$Component) {
                     { className: 'FileUpload' },
                     _react2.default.createElement(
                       _reactDropzone2.default,
-                      {
-                        multiple: false,
-                        accept: 'image/*',
-                        onDrop: this.onImageDrop.bind(this) },
+                      { onDrop: this.handleFileUpload },
                       _react2.default.createElement(
-                        'p',
+                        'div',
                         null,
-                        'Drop an image or click to select a file to upload.'
+                        'Try dropping a file here, or click to select a file to upload.'
                       )
                     )
                   ),
@@ -396,6 +407,10 @@ var _alt = require('../alt');
 
 var _alt2 = _interopRequireDefault(_alt);
 
+var _superagent = require('superagent');
+
+var _superagent2 = _interopRequireDefault(_superagent);
+
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -410,42 +425,35 @@ var EditProfileActions = function () {
   _createClass(EditProfileActions, [{
     key: 'uploadImage',
     value: function uploadImage(file) {
-      var _this = this;
-
-      $.ajax({
-        type: 'POST',
-        url: '/api/image',
-        data: file.value
-      }).done(function (data) {
-        _this.actions.uploadImageSuccess(data);
-      }).fail(function (jqXhr) {
-        _this.actions.uploadImageFail(jqXhr.responseJSON.message);
+      _superagent2.default.post('/api/image').attach('avatar', file).end(function (err, res) {
+        if (err) console.log(err);
+        console.log(res);
       });
     }
   }, {
     key: 'updateProfile',
     value: function updateProfile(profileData) {
-      var _this2 = this;
+      var _this = this;
 
       $.ajax({
         type: 'PUT',
         url: '/api/profile/' + profileData.id,
         data: profileData
       }).done(function (data) {
-        _this2.actions.updateProfileSuccess(data);
+        _this.actions.updateProfileSuccess(data);
       }).fail(function (jqXhr) {
-        _this2.actions.updateProfileFail(jqXhr.responseJSON.message);
+        _this.actions.updateProfileFail(jqXhr.responseJSON.message);
       });
     }
   }, {
     key: 'getProfile',
     value: function getProfile() {
-      var _this3 = this;
+      var _this2 = this;
 
       $.ajax({ url: '/api/profile' }).done(function (data) {
-        _this3.actions.getProfileSuccess(data);
+        _this2.actions.getProfileSuccess(data);
       }).fail(function (jqXhr) {
-        _this3.actions.getProfileFail(jqXhr);
+        _this2.actions.getProfileFail(jqXhr);
       });
     }
   }]);
@@ -455,7 +463,7 @@ var EditProfileActions = function () {
 
 exports.default = _alt2.default.createActions(EditProfileActions);
 
-},{"../alt":27}],4:[function(require,module,exports){
+},{"../alt":27,"superagent":49}],4:[function(require,module,exports){
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -551,7 +559,7 @@ var EditProfileStore = function () {
     key: 'onUploadImageSuccess',
     value: function onUploadImageSuccess(data) {
       console.log("testing");
-      _EditProfileActions2.default.updateProfile(data);
+      //EditProfileActions.updateProfile(data);
     }
   }, {
     key: 'onUploadImageFail',
