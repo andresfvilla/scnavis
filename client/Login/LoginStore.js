@@ -12,6 +12,7 @@ class LoginStore {
   }
 
   onLoginSuccess(successMessage) {
+    window.location.replace("/profile");
     this.displayNameValidationState = 'has-success';
     this.helpBlock = successMessage;
   }

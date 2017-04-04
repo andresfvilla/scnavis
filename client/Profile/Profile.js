@@ -43,7 +43,6 @@ class Profile extends React.Component {
   }
 
   editProfile(props){
-    console.log("testing edit profile button")
     window.location = '/edit-profile';
   }
 

@@ -21,7 +21,6 @@ class LoginActions {
       data: { email: email, password: password}
     })
       .done((data) => {
-        window.location.replace("/profile");
         this.actions.loginSuccess(data.message);
       })
       .fail((jqXhr) => {

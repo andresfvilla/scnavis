@@ -9,9 +9,25 @@ class EditProfileActions {
       'updateOldPassword',
       'updateNewPassword',
       'updateEmail',
-      'loginSuccess',
-      'loginFail'
+      'updateProfileSuccess',
+      'updateProfileFail',
+      'uploadImageSuccess',
+      'uploadImageFail'
     );
+  }
+
+  uploadImage(file){
+    $.ajax({
+      type: 'POST',
+      url: '/api/image',
+      data: file.value
+    })
+      .done((data) => {
+        this.actions.uploadImageSuccess(data);
+      })
+      .fail((jqXhr) => {
+        this.actions.uploadImageFail(jqXhr.responseJSON.message);
+      });
   }
 
   updateProfile(profileData) {
@@ -21,10 +37,10 @@ class EditProfileActions {
       data: profileData
     })
       .done((data) => {
-        this.actions.loginSuccess(data.message);
+        this.actions.updateProfileSuccess(data);
       })
       .fail((jqXhr) => {
-        this.actions.loginFail(jqXhr.responseJSON.message);
+        this.actions.updateProfileFail(jqXhr.responseJSON.message);
       });
   }
 

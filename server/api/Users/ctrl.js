@@ -66,7 +66,6 @@ module.exports = function(app, passport) {
         res.status(401);
         return next(err);
       }
-
       User.findOne({
             _id: req.body.id
         }, function(err, user) {
@@ -78,7 +77,8 @@ module.exports = function(app, passport) {
                 user.local[key] = req.body[key];
               }
             }
-            user.save()
+            user.save();
+            res.json(user);
         });
     });
 

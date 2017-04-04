@@ -1,5 +1,7 @@
 import React from 'react';
 import {Link} from 'react-router';
+import Dropzone from 'react-dropzone';
+import request from 'superagent';
 import {isEqual} from 'underscore';
 import EditProfileStore from './EditProfileStore';
 import EditProfileActions from './EditProfileActions';
@@ -15,16 +17,16 @@ class EditProfile extends React.Component {
     EditProfileStore.listen(this.onChange);
     EditProfileActions.getProfile();
 
-    $('.magnific-popup').magnificPopup({
-      type: 'image',
-      mainClass: 'mfp-zoom-in',
-      closeOnContentClick: true,
-      midClick: true,
-      zoom: {
-        enabled: true,
-        duration: 300
-      }
-    });
+    // $('.magnific-popup').magnificPopup({
+    //   type: 'image',
+    //   mainClass: 'mfp-zoom-in',
+    //   closeOnContentClick: true,
+    //   midClick: true,
+    //   zoom: {
+    //     enabled: true,
+    //     duration: 300
+    //   }
+    // });
   }
 
   componentWillUnmount() {
@@ -33,6 +35,7 @@ class EditProfile extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
+
     if (prevProps.params.id !== this.props.params.id) {
       EditProfileActions.getProfile();
     }
@@ -86,9 +89,41 @@ class EditProfile extends React.Component {
     }
   }
 
+  onImageDrop(files){
+    this.state.uploadedFile = files[0]
+    console.log(files)
+    EditProfileActions.uploadImage(files[0]);
+  }
+
   render() {
       return (
         <div className='container'>
+          <div className='row'>
+            <div className='col-sm-8 col-md-offset-2'>
+              <div className='panel panel-default'>
+                <div className='panel-heading'>Profile Picture</div>
+                <div className='panel-body'>
+                  <form onSubmit={this.handleGeneralSubmit.bind(this)}>
+                    <div className='profile-img'>
+                      <a ref='magnificPopup' className='magnific-popup' href={'/api/profilepicture/' + this.state.profilePicture}>
+                        <img className='media-object' src={'/api/profilepicture/'+this.state.profilePicture} />
+                      </a>
+                    </div>
+                    <div className='FileUpload'>
+                      <Dropzone
+                        multiple={false}
+                        accept="image/*"
+                        onDrop={this.onImageDrop.bind(this)}>
+                        <p>Drop an image or click to select a file to upload.</p>
+                      </Dropzone>
+                    </div>
+                    <button type='submit' className='btn btn-primary'>Submit</button>
+                  </form>
+                </div>
+              </div>
+            </div>
+          </div>
+
           <div className='row'>
             <div className='col-sm-8 col-md-offset-2'>
               <div className='panel panel-default'>
@@ -96,7 +131,7 @@ class EditProfile extends React.Component {
                 <div className='panel-body'>
                   <form onSubmit={this.handleGeneralSubmit.bind(this)}>
                     <div className={'form-group ' + this.state.emailValidationState}>
-                      <label className='control-label'>Email</label>
+                      <label className='control-label center-block'>Email</label>
                       <input type='text' className='form-control' ref='emailTextField' value={this.state.email}
                              onChange={EditProfileActions.updateEmail} autoFocus/>
                     </div>

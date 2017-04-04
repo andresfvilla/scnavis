@@ -9,11 +9,9 @@ module.exports = function(app) {
   var storage = multer.diskStorage({
     destination: imageDest,
     filename: function (req, file, cb) {
-      console.log('testing the filename')
-      var extension = file.mimetype;
+      var extension = path.extname(file.originalname);
       if(extension !== ".jpg" && extension !== ".png"){
         cb(true, {"error": "Bad file extension"})
-
       }
       crypto.pseudoRandomBytes(16, function (err, raw) {
         if (err) return cb(err)
@@ -22,10 +20,13 @@ module.exports = function(app) {
     }
   })
 
-  var upload = multer({ storage: storage })
+  var upload = multer({ storage: storage, limits: {fileSize: 600000}})
 
-  // app.post('/profile', upload.single('avatar'), function (req, res, next) {
-  // })
+  app.post('/api/image', upload.single('avatar'), function (req, res, next) {
+    console.log(req)
+      var filePath = req.file.filename
+      res.end(filePath)
+  })
 
   app.get('/api/images/:shortcode', function(req, res) {
       app.api.images.model.findOne({

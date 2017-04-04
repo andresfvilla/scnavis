@@ -12,6 +12,7 @@ class EditProfileStore {
     this.organization = [];
     this.oldPassword = '';
     this.newPassword = '';
+    this.uploadedFile = []
   }
 
   onUpdateEmail(event) {
@@ -46,12 +47,25 @@ class EditProfileStore {
     toastr.error(jqXhr.responseJSON.message);
   }
 
-  onLoginSuccess(data){
-    this.window.location('/')
+  onUpdateProfileSuccess(data){
+    this.email = data.local.email
+    this.displayName = data.local.displayName
+    this.profilePicture = data.local.profilePicture
+    this.organization = data.local.organization;
+    this.id = data._id
+    window.location.reload()
+  }
+
+  onUpdateProfileFail(jqXhr){
     console.log('testing the fail');
   }
 
-  onLoginFail(jqXhr){
+  onUploadImageSuccess(data){
+    console.log("testing")
+    EditProfileActions.updateProfile(data);
+  }
+
+  onUploadImageFail(jqXhr){
     console.log('testing the fail');
   }
 
