@@ -18,8 +18,14 @@ module.exports = function(app, passport) {
 
 
     app.get('/api/profilepicture/:image', function(req, res) {
-      console.log(req.params.image)
-      res.sendFile(path.join(__dirname, '../../public/img/profiles', req.params.image));
+      //read from mongodb
+      console.log(req.params.image);
+      var readstream = app.gfs.createReadStream({
+           filename: req.params.image
+      })
+      readstream.on('error', function(){ console.log('testing the error catch') });
+      readstream.pipe(res);
+
     });
 
     app.get('/api/users/:id', function(req, res) {

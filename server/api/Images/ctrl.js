@@ -1,11 +1,14 @@
-module.exports = function(app) {
+module.exports = function(app, passport) {
 
+  var User            = require('../Users/model');
   var multer  = require('multer')
   var imageDest = app.config.imageDest
   var path = require('path');
   var fs = require('fs');
+  var stream = require('stream');
   var crypto = require('crypto');
-
+  var Grid = require('gridfs-stream');
+  var sharp = require('sharp')
   var storage = multer.diskStorage({
     destination: imageDest,
     filename: function (req, file, cb) {
@@ -23,9 +26,40 @@ module.exports = function(app) {
   var upload = multer({ storage: storage, limits: {fileSize: 600000}})
 
   app.post('/api/image', upload.single('avatar'), function (req, res, next) {
-      var filePath = req.file.filename;
-      res.end(filePath);
+      var filePath = app.config.imageDest + req.file.filename;
+
+      sharp(filePath).resize(256, 256).ignoreAspectRatio().toBuffer(function(err, outputBuffer) {
+        if (err) {
+          throw err;
+        }
+        var writestream = app.gfs.createWriteStream({
+             filename: req.file.filename
+         });
+
+         var bufferStream = new stream.PassThrough();
+         bufferStream.end(outputBuffer);
+         bufferStream.pipe(writestream)
+         //fs.createReadStream(outputBuffer).pipe(writestream);
+
+         writestream.on('close', function (file) {
+            User.findOne({
+                  _id: req.session.passport.user
+              }, function(err, user) {
+                  console.log('this is the user')
+                  console.log(user)
+                  user.local.profilePicture = req.file.filename;
+                  user.save();
+                  console.log(file.filename + 'Written To DB and updated for ', user.id);
+              });
+         });
+         fs.unlink(filePath)
+      })
+
   })
+
+  // app.post('/api/image', function (req, res) {
+  //   console.log(app.gfs);
+  // })
 
   app.get('/api/images/:shortcode', function(req, res) {
       app.api.images.model.findOne({
@@ -43,18 +77,6 @@ module.exports = function(app) {
 
   app.get('/api/images', function(req, res) {
       app.api.images.model.find(function(err, imgs) {
-          if (err) {
-              return console.log(err);
-          }
-          res.json(imgs);
-      });
-  });
-
-  app.get('/api/images/tag/:tag', function(req, res) {
-      var tag = req.params.tag;
-      app.api.images.model.find({
-          tags: tag
-      }, function(err, imgs) {
           if (err) {
               return console.log(err);
           }
