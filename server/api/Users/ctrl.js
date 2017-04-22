@@ -66,20 +66,18 @@ module.exports = function(app, passport) {
     });
 
     app.put('/api/profile/:id', function(req, res) {
-      if(req.isAuthenticated()){
-        console.log(req.body)
-      } else {
+      if(!req.isAuthenticated()){
         res.status(401);
         return next(err);
       }
       User.findOne({
             _id: req.body.id
         }, function(err, user) {
-            console.log('this is the user')
-            console.log(user)
+            if(user.validPassword(req.body.oldPassword)){
+              user.local["password"] = user.generateHash(req.body.newPassword);
+            }
             for (var key in req.body) {
               if(key != 'id'){
-                console.log()
                 user.local[key] = req.body[key];
               }
             }

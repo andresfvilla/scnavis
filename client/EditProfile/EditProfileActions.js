@@ -10,6 +10,7 @@ class EditProfileActions {
       'updateDisplayName',
       'updateOldPassword',
       'updateNewPassword',
+      'updateConfirmPassword',
       'updateEmail',
       'updateProfileSuccess',
       'updateProfileFail',

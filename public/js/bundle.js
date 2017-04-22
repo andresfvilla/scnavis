@@ -156,12 +156,22 @@ var EditProfile = function (_React$Component) {
 
       var oldPassword = this.state.oldPassword;
       var newPassword = this.state.newPassword;
+      var confirmPassword = this.state.confirmPassword;
+      console.log(oldPassword);
+      console.log(newPassword);
+      console.log(confirmPassword);
 
-      if (oldPassword !== newPassword) {
-        _EditProfileActions2.default.invalidEditProfile();
+      if (confirmPassword !== newPassword) {
+        //EditProfileActions.invalidEditProfile();
+        console.log("passwords didnt match");
+        this.helpBlock = "New Password does not match Password confirmation";
       } else {
+        console.log("updating password");
+        var data = {};
         data.oldPassword = this.state.oldPassword;
         data.newPassword = this.state.newPassword;
+        data.id = this.state.id;
+
         _EditProfileActions2.default.updateProfile(data);
       }
     }
@@ -387,7 +397,7 @@ var EditProfileActions = function () {
   function EditProfileActions() {
     _classCallCheck(this, EditProfileActions);
 
-    this.generateActions('getProfileSuccess', 'getProfileFail', 'updateDisplayName', 'updateOldPassword', 'updateNewPassword', 'updateEmail', 'updateProfileSuccess', 'updateProfileFail', 'uploadImageSuccess', 'uploadImageFail');
+    this.generateActions('getProfileSuccess', 'getProfileFail', 'updateDisplayName', 'updateOldPassword', 'updateNewPassword', 'updateConfirmPassword', 'updateEmail', 'updateProfileSuccess', 'updateProfileFail', 'uploadImageSuccess', 'uploadImageFail');
   }
 
   _createClass(EditProfileActions, [{
@@ -480,6 +490,7 @@ var EditProfileStore = function () {
     this.organization = [];
     this.oldPassword = '';
     this.newPassword = '';
+    this.confirmPassword = '';
     this.uploadedFile = [];
   }
 
@@ -506,7 +517,7 @@ var EditProfileStore = function () {
   }, {
     key: 'onUpdateConfirmPassword',
     value: function onUpdateConfirmPassword(event) {
-      this.newPassword = event.target.value;
+      this.confirmPassword = event.target.value;
     }
   }, {
     key: 'onGetProfileSuccess',

@@ -54,12 +54,21 @@ class EditProfile extends React.Component {
 
     const oldPassword = this.state.oldPassword;
     const newPassword = this.state.newPassword;
+    const confirmPassword = this.state.confirmPassword;
+    console.log(oldPassword)
+    console.log(newPassword)
+    console.log(confirmPassword)
 
-    if (oldPassword !== newPassword) {
-      EditProfileActions.invalidEditProfile();
+    if (confirmPassword !== newPassword) {
+      //EditProfileActions.invalidEditProfile();
+      console.log("passwords didnt match")
+      this.helpBlock = "New Password does not match Password confirmation"
     } else {
+      console.log("updating password")
+      var data = {};
       data.oldPassword=this.state.oldPassword;
       data.newPassword = this.state.newPassword;
+      data.id = this.state.id
       EditProfileActions.updateProfile(data)
     }
   }

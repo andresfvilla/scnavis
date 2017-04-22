@@ -12,6 +12,7 @@ class EditProfileStore {
     this.organization = [];
     this.oldPassword = '';
     this.newPassword = '';
+    this.confirmPassword = '';
     this.uploadedFile = []
   }
 
@@ -32,7 +33,7 @@ class EditProfileStore {
   }
 
   onUpdateConfirmPassword(event) {
-    this.newPassword = event.target.value;
+    this.confirmPassword = event.target.value;
   }
 
   onGetProfileSuccess(data) {
