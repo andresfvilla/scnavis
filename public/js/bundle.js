@@ -113,17 +113,6 @@ var EditProfile = function (_React$Component) {
     value: function componentDidMount() {
       _EditProfileStore2.default.listen(this.onChange);
       _EditProfileActions2.default.getProfile();
-
-      // $('.magnific-popup').magnificPopup({
-      //   type: 'image',
-      //   mainClass: 'mfp-zoom-in',
-      //   closeOnContentClick: true,
-      //   midClick: true,
-      //   zoom: {
-      //     enabled: true,
-      //     duration: 300
-      //   }
-      // });
     }
   }, {
     key: 'componentWillUnmount',
@@ -170,6 +159,10 @@ var EditProfile = function (_React$Component) {
 
       if (oldPassword !== newPassword) {
         _EditProfileActions2.default.invalidEditProfile();
+      } else {
+        data.oldPassword = this.state.oldPassword;
+        data.newPassword = this.state.newPassword;
+        _EditProfileActions2.default.updateProfile(data);
       }
     }
   }, {
@@ -198,19 +191,8 @@ var EditProfile = function (_React$Component) {
     }
   }, {
     key: 'handleFileUpload',
-    value: function handleFileUpload(files) {
-      // console.log(e)
-
-      // superagent.post('/api/image')
-      //   .attach('avatar', files[0])
-      //   .end((err, res) => {
-      //     if (err) console.log(err);
-      //   })
-
-      // const reader = new FileReader();
-      // const file = e.target.files[0];
-      // console.log(file);
-      _EditProfileActions2.default.uploadImage(files[0]);
+    value: function handleFileUpload(uploadedFile) {
+      _EditProfileActions2.default.uploadImage(uploadedFile[0]);
     }
   }, {
     key: 'render',
@@ -236,36 +218,27 @@ var EditProfile = function (_React$Component) {
                 'div',
                 { className: 'panel-body' },
                 _react2.default.createElement(
-                  'form',
-                  { onSubmit: this.handleGeneralSubmit.bind(this) },
+                  'div',
+                  { className: '' },
+                  _react2.default.createElement('img', { className: 'center-block', src: '/api/profilepicture/' + this.state.profilePicture })
+                ),
+                _react2.default.createElement('br', null),
+                _react2.default.createElement(
+                  'div',
+                  { className: '' },
                   _react2.default.createElement(
-                    'div',
-                    { className: 'profile-img' },
+                    _reactDropzone2.default,
+                    { className: 'dropzone-resize center-block', style: {}, multiple: false, accept: 'image/*', onDrop: this.handleFileUpload },
+                    '>',
                     _react2.default.createElement(
-                      'a',
-                      { ref: 'magnificPopup', className: 'magnific-popup', href: '/api/profilepicture/' + this.state.profilePicture },
-                      _react2.default.createElement('img', { className: 'media-object', src: '/api/profilepicture/' + this.state.profilePicture })
+                      'div',
+                      { className: 'text-center' },
+                      'Drop/Click here to upload image.'
                     )
                   ),
-                  _react2.default.createElement(
-                    'div',
-                    { className: 'FileUpload' },
-                    _react2.default.createElement(
-                      _reactDropzone2.default,
-                      { onDrop: this.handleFileUpload },
-                      _react2.default.createElement(
-                        'div',
-                        null,
-                        'Try dropping a file here, or click to select a file to upload.'
-                      )
-                    )
-                  ),
-                  _react2.default.createElement(
-                    'button',
-                    { type: 'submit', className: 'btn btn-primary' },
-                    'Submit'
-                  )
-                )
+                  _react2.default.createElement('br', null)
+                ),
+                _react2.default.createElement('br', null)
               )
             )
           )
@@ -298,8 +271,7 @@ var EditProfile = function (_React$Component) {
                       { className: 'control-label center-block' },
                       'Email'
                     ),
-                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'emailTextField', value: this.state.email,
-                      onChange: _EditProfileActions2.default.updateEmail, autoFocus: true })
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'emailTextField', value: this.state.email, onChange: _EditProfileActions2.default.updateEmail, autoFocus: true })
                   ),
                   _react2.default.createElement(
                     'div',
@@ -309,8 +281,7 @@ var EditProfile = function (_React$Component) {
                       { className: 'control-label' },
                       'Display Name'
                     ),
-                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'displayNameTextField', value: this.state.displayName,
-                      onChange: _EditProfileActions2.default.updateDisplayName, autoFocus: true })
+                    _react2.default.createElement('input', { type: 'text', className: 'form-control', ref: 'displayNameTextField', value: this.state.displayName, onChange: _EditProfileActions2.default.updateDisplayName, autoFocus: true })
                   ),
                   _react2.default.createElement(
                     'button',
@@ -350,8 +321,7 @@ var EditProfile = function (_React$Component) {
                       { className: 'control-label' },
                       'Old Password'
                     ),
-                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password,
-                      onChange: _EditProfileActions2.default.updateOldPassword, autoFocus: true })
+                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password, onChange: _EditProfileActions2.default.updateOldPassword, autoFocus: true })
                   ),
                   _react2.default.createElement(
                     'div',
@@ -361,8 +331,7 @@ var EditProfile = function (_React$Component) {
                       { className: 'control-label' },
                       'New Password'
                     ),
-                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password,
-                      onChange: _EditProfileActions2.default.updateNewPassword, autoFocus: true })
+                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password, onChange: _EditProfileActions2.default.updateNewPassword, autoFocus: true })
                   ),
                   _react2.default.createElement(
                     'div',
@@ -372,8 +341,7 @@ var EditProfile = function (_React$Component) {
                       { className: 'control-label' },
                       'Confirm New Password'
                     ),
-                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password,
-                      onChange: _EditProfileActions2.default.updateConfirmPassword, autoFocus: true })
+                    _react2.default.createElement('input', { type: 'password', className: 'form-control', ref: 'passwordTextField', value: this.state.password, onChange: _EditProfileActions2.default.updateConfirmPassword, autoFocus: true })
                   ),
                   _react2.default.createElement(
                     'button',
@@ -424,36 +392,50 @@ var EditProfileActions = function () {
 
   _createClass(EditProfileActions, [{
     key: 'uploadImage',
-    value: function uploadImage(file) {
-      _superagent2.default.post('/api/image').attach('avatar', file).end(function (err, res) {
-        if (err) console.log(err);
-        console.log(res);
+    value: function uploadImage(image) {
+      var _this = this;
+
+      var formData = new FormData();
+      formData.append("avatar", image);
+      $.ajax({
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        url: '/api/image',
+        data: formData
+      }).done(function (data) {
+        console.log("done uploading image");
+        console.log(data);
+        _this.actions.uploadImageSuccess(data);
+      }).fail(function (jqXhr) {
+        console.log("done uploading image");
+        _this.actions.uploadImageFail(jqXhr.responseJSON.message);
       });
     }
   }, {
     key: 'updateProfile',
     value: function updateProfile(profileData) {
-      var _this = this;
+      var _this2 = this;
 
       $.ajax({
         type: 'PUT',
         url: '/api/profile/' + profileData.id,
         data: profileData
       }).done(function (data) {
-        _this.actions.updateProfileSuccess(data);
+        _this2.actions.updateProfileSuccess(data);
       }).fail(function (jqXhr) {
-        _this.actions.updateProfileFail(jqXhr.responseJSON.message);
+        _this2.actions.updateProfileFail(jqXhr.responseJSON.message);
       });
     }
   }, {
     key: 'getProfile',
     value: function getProfile() {
-      var _this2 = this;
+      var _this3 = this;
 
       $.ajax({ url: '/api/profile' }).done(function (data) {
-        _this2.actions.getProfileSuccess(data);
+        _this3.actions.getProfileSuccess(data);
       }).fail(function (jqXhr) {
-        _this2.actions.getProfileFail(jqXhr);
+        _this3.actions.getProfileFail(jqXhr);
       });
     }
   }]);
@@ -559,6 +541,7 @@ var EditProfileStore = function () {
     key: 'onUploadImageSuccess',
     value: function onUploadImageSuccess(data) {
       console.log("testing");
+      window.location.reload();
       //EditProfileActions.updateProfile(data);
     }
   }, {

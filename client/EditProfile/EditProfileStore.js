@@ -62,6 +62,7 @@ class EditProfileStore {
 
   onUploadImageSuccess(data){
     console.log("testing")
+    window.location.reload()
     //EditProfileActions.updateProfile(data);
   }
 

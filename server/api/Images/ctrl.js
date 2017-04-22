@@ -23,7 +23,8 @@ module.exports = function(app, passport) {
     }
   })
 
-  var upload = multer({ storage: storage, limits: {fileSize: 600000}})
+  //var upload = multer({ storage: storage, limits: {fileSize: 600000}})
+  var upload = multer({ storage: storage})
 
   app.post('/api/image', upload.single('avatar'), function (req, res, next) {
       var filePath = app.config.imageDest + req.file.filename;
@@ -39,27 +40,30 @@ module.exports = function(app, passport) {
          var bufferStream = new stream.PassThrough();
          bufferStream.end(outputBuffer);
          bufferStream.pipe(writestream)
-         //fs.createReadStream(outputBuffer).pipe(writestream);
-
          writestream.on('close', function (file) {
             User.findOne({
                   _id: req.session.passport.user
               }, function(err, user) {
                   console.log('this is the user')
-                  console.log(user)
                   user.local.profilePicture = req.file.filename;
                   user.save();
-                  console.log(file.filename + 'Written To DB and updated for ', user.id);
+                  console.log(file.filename + ' Written To DB and updated for ', user.id);
+                  console.log("returning a 200")
+                  //res.status(200)
               });
+            res.status(200)
+            res.json({"test":"test"})
+            console.log("added 200")
+            return
+
          });
          fs.unlink(filePath)
       })
-
   })
 
-  // app.post('/api/image', function (req, res) {
-  //   console.log(app.gfs);
-  // })
+  app.post('/api/imager', function (req, res) {
+    console.log(req);
+  })
 
   app.get('/api/images/:shortcode', function(req, res) {
       app.api.images.model.findOne({

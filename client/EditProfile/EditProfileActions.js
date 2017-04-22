@@ -18,12 +18,24 @@ class EditProfileActions {
     );
   }
 
-  uploadImage(file){
-    superagent.post('/api/image')
-      .attach('avatar', file)
-      .end((err, res) => {
-        if (err) console.log(err);
-        console.log(res);
+  uploadImage(image){
+    var formData = new FormData()
+    formData.append("avatar", image)
+    $.ajax({
+      type: 'POST',
+      processData: false,
+      contentType: false,
+      url: '/api/image',
+      data: formData
+    })
+      .done((data) => {
+        console.log("done uploading image")
+        console.log(data)
+        this.actions.uploadImageSuccess(data);
+      })
+      .fail((jqXhr) => {
+        console.log("done uploading image")
+        this.actions.uploadImageFail(jqXhr.responseJSON.message);
       });
   }
 
