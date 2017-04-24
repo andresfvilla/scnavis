@@ -24,6 +24,7 @@ var fs = require('fs');
 var async = require('async');
 var xml2js = require('xml2js');
 var Grid = require('gridfs-stream');
+var User = require('./api/Users/model')
 
 
 var app = express();
@@ -111,6 +112,23 @@ io.sockets.on('connection', function(socket) {
     onlineUsers--;
     io.sockets.emit('onlineUsers', { onlineUsers: onlineUsers });
   });
+});
+
+//This should be kept, this will make it so every request goes through this, and deletes the password field from it.
+app.use(function(req, res, next){
+  if (req.session & req.session.user){
+    User.findOne({email: req.session.user.email}, function (err,user){
+      if (user){
+        req.user = user;
+        delete req.user.password;
+        req.session.user = req.user;
+        req.locals.user = req.user;
+      }
+      next();
+    });
+  } else {
+    next();
+  }
 });
 
 server.listen(PORT, function() {
