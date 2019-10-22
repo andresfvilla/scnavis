@@ -67,7 +67,7 @@ conn.once('open', function () {
      if (found) {
        console.log('File exists')
      } else {
-       console.log('File does not exist');
+       console.log('File does not exist, using default picture');
        var writestream = app.gfs.createWriteStream({
             filename: 'default_profile.png'
         });
